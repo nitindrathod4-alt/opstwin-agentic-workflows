@@ -1,0 +1,52 @@
+[
+  {
+    "id": "INC-001",
+    "text": "API requests began failing with database connection pool exhaustion after traffic increased.",
+    "expected_root_cause": "database_connection_exhaustion"
+  },
+  {
+    "id": "INC-002",
+    "text": "The service was killed by the OS after memory usage climbed continuously for 40 minutes and an OOM event appeared.",
+    "expected_root_cause": "memory_leak"
+  },
+  {
+    "id": "INC-003",
+    "text": "Errors started immediately after release version 42 was deployed; version 41 was healthy.",
+    "expected_root_cause": "deployment_regression"
+  },
+  {
+    "id": "INC-004",
+    "text": "Requests to the upstream payment service repeatedly timed out and some connections were reset.",
+    "expected_root_cause": "network_timeout"
+  },
+  {
+    "id": "INC-005",
+    "text": "Users received unauthorized responses because the authentication token had expired.",
+    "expected_root_cause": "authentication_failure"
+  },
+  {
+    "id": "INC-006",
+    "text": "A release completed successfully, but database connections were exhausted and the API returned errors.",
+    "expected_root_cause": "database_connection_exhaustion"
+  },
+  {
+    "id": "INC-007",
+    "text": "Latency rose while the upstream dependency reported connection resets; application memory stayed normal.",
+    "expected_root_cause": "network_timeout"
+  },
+  {
+    "id": "INC-008",
+    "text": "After deployment, authentication requests failed because the service was using an expired token.",
+    "expected_root_cause": "authentication_failure"
+  },
+  {
+    "id": "INC-009",
+    "text": "Memory usage increased on every request and eventually the process hit an out of memory condition.",
+    "expected_root_cause": "memory_leak"
+  },
+  {
+    "id": "INC-010",
+    "text": "Version 17 introduced a regression that caused elevated error rates immediately after deployment.",
+    "expected_root_cause": "deployment_regression"
+  }
+]
