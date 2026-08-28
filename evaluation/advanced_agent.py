@@ -23,7 +23,7 @@ HYPOTHESES = {
         "negative": (),
     },
     "deployment_regression": {
-        "positive": ("immediately after release", "immediately after deployment", "after release", "after deployment", "introduced a regression", "version 42 was healthy", "version 41 was healthy"),
+        "positive": ("immediately after release", "immediately after deployment", "after release", "after deployment", "introduced a regression", "version 42 was healthy", "version 41 was healthy", "release 42 deployed"),
         "negative": ("release completed successfully", "canary", "deployment was unchanged", "unchanged for two hours"),
     },
 }
@@ -41,9 +41,15 @@ def diagnose_advanced(incident_id: str, text: str) -> Diagnosis:
 
         if cause == "deployment_regression" and any(
             phrase in lowered
-            for phrase in ("immediately after deployment", "immediately after release", "introduced a regression")
+            for phrase in ("immediately after deployment", "immediately after release", "introduced a regression", "release 42 deployed")
         ):
             score += 2.0
+
+        # A post-deployment error spike is only strong evidence when there is
+        # no explicit signal that the deployment remained healthy/unchanged.
+        if cause == "deployment_regression" and "five minutes later 5xx increased" in lowered:
+            score += 1.5
+
         ranked.append((score, cause, hits))
 
     ranked.sort(reverse=True)
