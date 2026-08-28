@@ -1,41 +1,69 @@
-# OpsTwin — Evidence-Driven AI Incident Investigator
+# OpsTwin — Agentic Incident Investigation
 
-OpsTwin is a hackathon project for investigating software incidents using agentic workflows. It is designed around evidence, competing hypotheses, verification, reproducibility, and measurable improvement.
+> **Frontier Engineering Challenge 2026**
 
-## Competition approach
+OpsTwin is an evidence-driven incident investigation system designed to show what happens when a coding agent reasons about an ambiguous software incident rather than merely generating code.
 
-We will build two versions against the same evaluation cases:
+## Core idea
 
-1. **Baseline** — a simple incident diagnosis workflow.
-2. **Advanced** — evidence collection, timeline reconstruction, competing hypotheses, counter-evidence, sandbox verification, and structured reporting.
-
-No production systems or destructive actions are used. Evaluation data will be synthetic/public and consequential actions remain simulated or require human approval.
-
-## Status
-
-🚧 Initial scaffold. Baseline and evaluation harness are the first implementation targets.
-
-## Planned structure
+OpsTwin separates a simple keyword baseline from an advanced, auditable investigation loop:
 
 ```text
-opstwin/
-├── agents/
-├── tools/
-├── data/
-│   ├── incidents/
-│   └── scenarios/
-├── baseline/
-├── evaluation/
-├── tests/
-├── README.md
-├── CHANGELOG.md
-└── requirements.txt
+Incident → Evidence → Timeline → Competing hypotheses
+                         ↓
+              Supporting + contradicting evidence
+                         ↓
+                 Sandbox verification / replay
+                         ↓
+                 Reproducible incident report
 ```
+
+The system is simulation-first and does not execute destructive production actions.
+
+## Baseline vs Advanced
+
+**Baseline:** deterministic keyword matching.
+
+**Advanced:** explicit orchestration, timestamped evidence, competing hypotheses, counter-evidence, safe verification, incident replay and counterfactual analysis.
+
+Both versions use the same fixed synthetic dataset so improvement can be measured rather than claimed.
+
+## Run locally
+
+```bash
+python -m venv .venv
+# Windows: .venv\\Scripts\\activate
+# macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
+python -m evaluation.evaluate_baseline
+python -m opstwin.demo
+pytest -q
+```
+
+## Agent-use policy
+
+Coding-agent use is required by the competition. The investigation loop is documented in `agents/agent_policy.md`. Representative agent trajectories should be preserved separately from secrets and included in the final archive as required by the challenge.
+
+## Dataset
+
+`data/incidents/cases.json` contains synthetic evaluation cases. Existing benchmark cases should not be changed after measurement without recording a dataset-version change in `CHANGELOG.md`.
 
 ## Reproducibility
 
-Commands and dependency versions will be added as the implementation stabilizes. Secrets must never be committed to the repository.
+A clean environment must be able to run the baseline, advanced demo and tests using the commands above. Results should be recorded with the exact dataset and dependency versions used.
 
-## License / competition note
+## Improvement Changelog
 
-This repository is being developed for the micro1 Frontier Engineering Challenge 2026. Pre-existing components, if any, will be clearly identified separately from competition-created work.
+See `CHANGELOG.md` for iteration-by-iteration decisions and evidence.
+
+## Main failure mode
+
+The system can become overconfident when evidence is sparse, correlated or misleading. Counter-evidence and reproducible verification are therefore first-class signals.
+
+## Hot take
+
+**The strongest incident agent is not the one that guesses the root cause fastest; it is the one that can show why its conclusion survived attempts to disprove it.**
+
+## Competition note
+
+Pre-existing components and competition-created work should be clearly identified in the final submission. Never commit credentials or private information.
