@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpsTwin Agent Trajectory",
+  "type": "object",
+  "required": ["agent", "steps"],
+  "properties": {
+    "agent": {"type": "string"},
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["action", "observation"],
+        "properties": {
+          "action": {"type": "string"},
+          "observation": {"type": "string"},
+          "decision": {"type": "string"},
+          "human_checkpoint": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}
