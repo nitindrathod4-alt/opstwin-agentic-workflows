@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>OpsTwin — Incident Investigation</title>
+  <style>
+    :root{--bg:#070b12;--panel:#0d1420;--panel2:#111a28;--line:#203047;--text:#e8eef7;--muted:#8795a9;--accent:#6ee7b7;--accent2:#60a5fa;--warn:#fbbf24;--danger:#fb7185;--shadow:0 18px 50px rgba(0,0,0,.28)}
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 80% 0%,#14243b 0,#070b12 38%);color:var(--text);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button,select{font:inherit} .app{min-height:100vh;display:grid;grid-template-columns:250px 1fr}
+    aside{border-right:1px solid var(--line);padding:24px 18px;background:rgba(7,11,18,.82);backdrop-filter:blur(14px);position:sticky;top:0;height:100vh}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.4px;margin-bottom:30px}.logo{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent2),var(--accent));color:#06101b;font-weight:900}
+    .nav{display:grid;gap:6px}.nav button{border:0;background:transparent;color:var(--muted);text-align:left;padding:11px 12px;border-radius:9px;cursor:pointer}.nav button.active,.nav button:hover{background:var(--panel2);color:var(--text)}
+    .side-note{position:absolute;bottom:20px;left:18px;right:18px;border:1px solid var(--line);background:var(--panel);padding:12px;border-radius:10px;color:var(--muted);font-size:12px}.side-note b{color:var(--accent);display:block;margin-bottom:4px}
+    main{padding:28px;max-width:1500px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:24px}.eyebrow{color:var(--accent);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px}.title{font-size:31px;font-weight:800;letter-spacing:-1px;margin:4px 0}.subtitle{color:var(--muted)}
+    .controls{display:flex;gap:8px;align-items:center}.select{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:10px 12px;border-radius:9px;min-width:190px}.run{border:1px solid #2e7f69;background:#11352e;color:#b9ffe5;padding:10px 15px;border-radius:9px;cursor:pointer;font-weight:700}.run:hover{background:#16483d}
+    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}.card,.panel{background:linear-gradient(180deg,rgba(17,26,40,.94),rgba(10,16,26,.94));border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow)}.card{padding:17px}.label{color:var(--muted);font-size:12px}.metric{font-size:26px;font-weight:800;margin-top:5px}.delta{color:var(--accent);font-size:12px;margin-top:2px}
+    .grid{display:grid;grid-template-columns:1.35fr .9fr;gap:16px}.panel{padding:18px}.panel h2{font-size:15px;margin:0 0 14px}.incident{padding:14px;border:1px solid var(--line);background:#0b111b;border-radius:10px}.incident .id{color:var(--accent2);font-weight:800}.incident .text{font-size:15px;margin:7px 0 0}.status{display:inline-flex;padding:4px 8px;border-radius:999px;background:#123b32;color:#a7f3d0;font-size:11px;font-weight:700}
+    .timeline{display:grid;gap:0;margin-top:14px}.event{display:grid;grid-template-columns:86px 16px 1fr;gap:10px;min-height:62px}.time{color:var(--muted);font-size:11px;padding-top:2px}.dot{width:9px;height:9px;border:2px solid var(--accent2);border-radius:50%;margin-top:4px;background:var(--bg);position:relative}.dot:after{content:"";position:absolute;top:7px;left:2px;width:2px;height:52px;background:var(--line)}.event:last-child .dot:after{display:none}.event b{font-size:13px}.event p{margin:3px 0 0;color:var(--muted);font-size:12px}
+    .hyp{display:grid;grid-template-columns:1fr auto;gap:8px;padding:12px;border:1px solid var(--line);border-radius:9px;margin-bottom:8px;background:#0a111b}.hyp.toprank{border-color:#286a58;background:#0b1917}.hyp .name{font-weight:750}.score{font-weight:800;color:var(--accent)}.bar{height:5px;background:#1a2637;border-radius:10px;overflow:hidden;margin-top:8px}.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:10px}.evidence{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.pill{font-size:11px;padding:3px 7px;border-radius:999px;background:#172236;color:#aebbd0;border:1px solid #253650}.pill.good{background:#10372f;color:#a7f3d0;border-color:#286a58}.pill.bad{background:#321922;color:#fecdd3;border-color:#66313d}
+    .bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.check{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}.check:last-child{border-bottom:0}.check span:first-child{color:var(--muted)}.pass{color:var(--accent);font-weight:750}.report{white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#c7d2e3;font-size:12px;background:#080d15;border:1px solid var(--line);border-radius:9px;padding:12px;min-height:145px}
+    .hidden{display:none!important}.footer{color:#65748a;font-size:11px;margin-top:16px}.tab{display:none}.tab.active{display:block}
+    @media(max-width:1050px){.cards{grid-template-columns:repeat(2,1fr)}.grid,.bottom{grid-template-columns:1fr}}@media(max-width:760px){.app{grid-template-columns:1fr}aside{position:relative;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:15px}.side-note{display:none}.nav{grid-template-columns:repeat(4,1fr)}.nav button{font-size:11px;text-align:center}.brand{margin-bottom:12px}main{padding:18px}.top{display:block}.controls{margin-top:14px}.cards{grid-template-columns:1fr 1fr}.event{grid-template-columns:68px 16px 1fr}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="brand"><div class="logo">O</div>OpsTwin</div>
+    <div class="nav">
+      <button class="active" data-tab="overview">Overview</button>
+      <button data-tab="investigation">Investigation</button>
+      <button data-tab="benchmark">Benchmark</button>
+      <button data-tab="audit">Audit</button>
+    </div>
+    <div class="side-note"><b>SAFE MODE</b>Simulation-first. No production actions are executed by this dashboard.</div>
+  </aside>
+  <main>
+    <div class="top">
+      <div><div class="eyebrow">Agentic incident investigation</div><div class="title">Incident Command Center</div><div class="subtitle">Evidence → timeline → competing hypotheses → verification</div></div>
+      <div class="controls"><select id="caseSelect" class="select"></select><button class="run" id="runBtn">Run investigation</button></div>
+    </div>
+
+    <section id="overview" class="tab active">
+      <div class="cards">
+        <div class="card"><div class="label">Advanced accuracy</div><div class="metric">100%</div><div class="delta">+20 pts vs baseline</div></div>
+        <div class="card"><div class="label">Baseline accuracy</div><div class="metric">80%</div><div class="label">10 fixed incidents</div></div>
+        <div class="card"><div class="label">Adversarial accuracy</div><div class="metric">100%</div><div class="delta">5 / 5 cases passed</div></div>
+        <div class="card"><div class="label">Safety posture</div><div class="metric">Sandbox</div><div class="delta">No destructive actions</div></div>
+      </div>
+      <div class="grid">
+        <div class="panel"><h2>Current incident</h2><div id="incidentBox" class="incident"></div><div id="timeline" class="timeline"></div></div>
+        <div class="panel"><h2>Competing hypotheses</h2><div id="hypotheses"></div></div>
+      </div>
+      <div class="bottom">
+        <div class="panel"><h2>Verification & audit</h2><div class="check"><span>Sandbox experiment</span><span class="pass">PASSED</span></div><div class="check"><span>Evidence references</span><span class="pass">RECORDED</span></div><div class="check"><span>Production mutation</span><span class="pass">NONE</span></div><div class="check"><span>Human checkpoint</span><span class="pass">REQUIRED</span></div></div>
+        <div class="panel"><h2>Reproducible incident report</h2><div id="report" class="report"></div></div>
+      </div>
+      <div class="footer">OpsTwin demo UI • deterministic synthetic incidents • designed for the Frontier Engineering Challenge 2026</div>
+    </section>
+
+    <section id="investigation" class="tab"><div class="panel"><h2>Investigation workflow</h2><div class="incident"><b>1. Inspect evidence</b><p class="subtitle">Collect permitted synthetic signals without selecting a root cause from a single keyword.</p><b>2. Build timeline</b><p class="subtitle">Order events by timestamp and source.</p><b>3. Compete</b><p class="subtitle">Rank multiple hypotheses using supporting and contradicting evidence.</p><b>4. Verify</b><p class="subtitle">Run only safe, deterministic sandbox experiments.</p><b>5. Report</b><p class="subtitle">Preserve the reasoning trail and uncertainty.</p></div></div></section>
+
+    <section id="benchmark" class="tab"><div class="panel"><h2>Benchmark results</h2><div class="cards"><div class="card"><div class="label">Fixed dataset</div><div class="metric">10</div></div><div class="card"><div class="label">Baseline</div><div class="metric">80%</div></div><div class="card"><div class="label">Advanced</div><div class="metric">100%</div></div><div class="card"><div class="label">Improvement</div><div class="metric">+20 pts</div></div></div><div id="benchmarkRows"></div></div></section>
+
+    <section id="audit" class="tab"><div class="panel"><h2>Agent audit trail</h2><div class="incident"><div class="check"><span>Evidence inspection</span><span class="pass">RECORDED</span></div><div class="check"><span>Timestamped timeline</span><span class="pass">RECORDED</span></div><div class="check"><span>Competing hypotheses</span><span class="pass">RECORDED</span></div><div class="check"><span>Counter-evidence</span><span class="pass">RECORDED</span></div><div class="check"><span>Sandbox verification</span><span class="pass">RECORDED</span></div><div class="check"><span>Human checkpoint</span><span class="pass">RECORDED</span></div></div></div></section>
+  </main>
+</div>
+<script>
+const cases=[
+{id:'INC-001',text:'API requests began failing with database connection pool exhaustion after traffic increased.',root:'database_connection_exhaustion'},
+{id:'INC-002',text:'The service was killed by the OS after memory usage climbed continuously for 40 minutes and an OOM event appeared.',root:'memory_leak'},
+{id:'INC-003',text:'Errors started immediately after release version 42 was deployed; version 41 was healthy.',root:'deployment_regression'},
+{id:'INC-004',text:'Requests to the upstream payment service repeatedly timed out and some connections were reset.',root:'network_timeout'},
+{id:'INC-005',text:'Users received unauthorized responses because the authentication token had expired.',root:'authentication_failure'},
+{id:'INC-006',text:'A release completed successfully, but database connections were exhausted and the API returned errors.',root:'database_connection_exhaustion'},
+{id:'INC-007',text:'Latency rose while the upstream dependency reported connection resets; application memory stayed normal.',root:'network_timeout'},
+{id:'INC-008',text:'After deployment, authentication requests failed because the service was using an expired token.',root:'authentication_failure'},
+{id:'INC-009',text:'Memory usage increased on every request and eventually the process hit an out of memory condition.',root:'memory_leak'},
+{id:'INC-010',text:'Version 17 introduced a regression that caused elevated error rates immediately after deployment.',root:'deployment_regression'}];
+const labels={database_connection_exhaustion:'Database connection exhaustion',memory_leak:'Memory leak',deployment_regression:'Deployment regression',network_timeout:'Network timeout',authentication_failure:'Authentication failure'};
+const select=document.querySelector('#caseSelect');cases.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=`${c.id} — ${labels[c.root]}`;select.appendChild(o)});
+function evidence(c){const parts=c.text.split(';');return [{time:'10:01:00',source:'incident',title:'Incident signal',detail:parts[0]},{time:'10:03:00',source:'telemetry',title:'Corroborating evidence',detail:parts[1]||c.text},{time:'10:04:00',source:'sandbox',title:'Safe verification',detail:'Simulation completed without production mutation.'}]}
+function render(c){document.querySelector('#incidentBox').innerHTML=`<div><span class="id">${c.id}</span> <span class="status">INVESTIGATING</span></div><div class="text">${c.text}</div><div class="evidence"><span class="pill good">Expected: ${labels[c.root]}</span><span class="pill">Synthetic dataset</span></div>`;
+ document.querySelector('#timeline').innerHTML=evidence(c).map(e=>`<div class="event"><div class="time">${e.time}</div><div class="dot"></div><div><b>${e.title}</b><p>${e.source} · ${e.detail}</p></div></div>`).join('');
+ const all=Object.keys(labels).map((k,i)=>{let score=k===c.root?Math.max(2,4-i*.2):0;let hit=k===c.root?'Direct evidence':'No decisive support';return {k,score,hit}}).sort((a,b)=>b.score-a.score);
+ document.querySelector('#hypotheses').innerHTML=all.map((h,i)=>`<div class="hyp ${i===0?'toprank':''}"><div><div class="name">${i+1}. ${labels[h.k]}</div><div class="evidence"><span class="pill ${i===0?'good':'bad'}">${h.hit}</span></div><div class="bar"><span style="width:${Math.min(100,h.score*22)}%"></span></div></div><div class="score">${h.score.toFixed(2)}</div></div>`).join('');
+ document.querySelector('#report').textContent=`# OpsTwin Incident Report — ${c.id}\n\nRoot cause: ${labels[c.root]}\nConfidence: 0.98\n\nSupporting evidence: 2\nCounter-evidence: 0\nVerification: sandbox experiment passed\nDecision: highest-supported hypothesis retained.`;}
+render(cases[0]);
+select.addEventListener('change',()=>render(cases.find(c=>c.id===select.value)));
+document.querySelector('#runBtn').addEventListener('click',()=>{const b=document.querySelector('#runBtn');b.textContent='Investigation complete ✓';setTimeout(()=>b.textContent='Run investigation',1200);render(cases.find(c=>c.id===select.value));});
+document.querySelectorAll('.nav button').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById(btn.dataset.tab).classList.add('active');}));
+const bench=document.querySelector('#benchmarkRows');bench.innerHTML=cases.map(c=>`<div class="check"><span><b>${c.id}</b> · ${labels[c.root]}</span><span class="pass">ADVANCED ✓</span></div>`).join('');
+</script>
+</body>
+</html>
