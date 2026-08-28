@@ -12,6 +12,11 @@ ROOT = Path(__file__).parents[1]
 CASES = ROOT / "data" / "incidents" / "cases.json"
 
 
+def load_cases() -> list[dict[str, object]]:
+    """Load the fixed benchmark cases."""
+    return json.loads(CASES.read_text(encoding="utf-8"))
+
+
 def run_baseline() -> dict[str, object]:
     cases = json.loads(CASES.read_text(encoding="utf-8"))
     predictions = [diagnose(c["id"], c["text"]).root_cause for c in cases]
