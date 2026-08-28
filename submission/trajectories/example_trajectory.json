@@ -1,0 +1,10 @@
+{
+  "agent": "OpsTwin-investigator-demo",
+  "steps": [
+    {"action":"inspect incident evidence","observation":"Synthetic incident contains deployment, latency and dependency signals.","decision":"Do not select a root cause from one keyword."},
+    {"action":"build timeline","observation":"Events are ordered by timestamp and source.","decision":"Use temporal proximity as one signal, not proof."},
+    {"action":"generate competing hypotheses","observation":"Deployment regression and dependency/network failure remain plausible.","decision":"Seek evidence that could disprove each hypothesis."},
+    {"action":"run safe replay","observation":"Replay is isolated from production and produces reproducible outputs.","decision":"Keep the experiment as evidence for the final report.","human_checkpoint":true},
+    {"action":"write report","observation":"Report records supporting and contradicting evidence.","decision":"Return the highest-supported hypothesis with uncertainty."}
+  ]
+}
