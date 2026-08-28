@@ -1,4 +1,4 @@
-"""Run the advanced control against adversarial cases and emit evidence-friendly JSON."""
+"""Run the advanced control against adversarial cases."""
 from __future__ import annotations
 
 import json
@@ -19,7 +19,12 @@ def main() -> None:
         ok = prediction.root_cause == case["expected_root_cause"]
         correct += int(ok)
         rows.append({"id": case["id"], "expected": case["expected_root_cause"], "predicted": prediction.root_cause, "correct": ok})
-    result = {"dataset_size": len(cases), "correct": correct, "accuracy": correct / len(cases) if cases else 0.0, "rows": rows}
+    result = {
+        "dataset_size": len(cases),
+        "correct": correct,
+        "accuracy": correct / len(cases) if cases else 0.0,
+        "rows": rows,
+    }
     print(json.dumps(result, indent=2))
 
 
