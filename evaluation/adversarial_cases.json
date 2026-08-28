@@ -1,0 +1,7 @@
+[
+  {"id":"ADV-001","text":"Release 42 deployed. Five minutes later 5xx increased. Database pool was also near its limit.","expected_root_cause":"deployment_regression","trap":"database_capacity"},
+  {"id":"ADV-002","text":"Latency increased after a release, but memory stayed flat and upstream payment connections were reset repeatedly.","expected_root_cause":"network_timeout","trap":"deployment_regression"},
+  {"id":"ADV-003","text":"Authentication failures appeared after deployment, but the service logs show an expired token rather than a code regression.","expected_root_cause":"authentication_failure","trap":"deployment_regression"},
+  {"id":"ADV-004","text":"Traffic increased, connection pool exhaustion followed, while the deployed version had no error-rate change in canary.","expected_root_cause":"database_connection_exhaustion","trap":"deployment_regression"},
+  {"id":"ADV-005","text":"Memory climbed steadily across identical requests; deployment was unchanged for two hours before the OOM event.","expected_root_cause":"memory_leak","trap":"deployment_regression"}
+]
