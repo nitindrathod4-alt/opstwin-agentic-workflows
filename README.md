@@ -28,6 +28,19 @@ The system is simulation-first and does not execute destructive production actio
 
 Both versions use the same fixed synthetic dataset so improvement can be measured rather than claimed.
 
+## Dashboard
+
+A lightweight web dashboard is included in `frontend/index.html`. It presents the incident, timeline, competing hypotheses, verification state, audit trail and benchmark results in one command-center view.
+
+Start it from the repository root:
+
+```bash
+source .venv/bin/activate
+python -m opstwin.web
+```
+
+Then open `http://127.0.0.1:8000` (or use an SSH tunnel if the EC2 instance is remote). The server uses only the Python standard library and remains simulation-only.
+
 ## Run locally
 
 ```bash
@@ -36,7 +49,10 @@ python -m venv .venv
 # macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
 python -m evaluation.evaluate_baseline
+python -m evaluation.run_benchmark
+python -m evaluation.run_adversarial
 python -m opstwin.demo
+python -m evaluation.counterfactual_demo
 pytest -q
 ```
 
@@ -50,7 +66,7 @@ Coding-agent use is required by the competition. The investigation loop is docum
 
 ## Reproducibility
 
-A clean environment must be able to run the baseline, advanced demo and tests using the commands above. Results should be recorded with the exact dataset and dependency versions used.
+A clean environment must be able to run the baseline, advanced demo, dashboard and tests using the commands above. Results should be recorded with the exact dataset and dependency versions used.
 
 ## Improvement Changelog
 
