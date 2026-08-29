@@ -1,0 +1,3 @@
+ReplayResult(scenario='DEMO-001', diagnosis='deployment_regression', confidence=0.75, removed_evidence=())
+ReplayResult(scenario='DEMO-001', diagnosis='deployment_regression', confidence=0.3833333333333333, removed_evidence=('deployment',))
+ReplayResult(scenario='DEMO-001', diagnosis='deployment_regression', confidence=0.3666666666666667, removed_evidence=('logs',))

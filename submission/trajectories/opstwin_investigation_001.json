@@ -1,0 +1,36 @@
+{
+  "agent": "OpsTwin-investigator",
+  "steps": [
+    {
+      "action": "inspect incident evidence",
+      "observation": "Synthetic incident evidence contains timestamped deployment, log and metric signals.",
+      "decision": "Do not select a root cause from a single signal."
+    },
+    {
+      "action": "build timestamped timeline",
+      "observation": "Evidence is reconstructed in chronological order.",
+      "decision": "Use temporal ordering as supporting context."
+    },
+    {
+      "action": "generate competing hypotheses",
+      "observation": "Multiple root-cause hypotheses can explain parts of the incident.",
+      "decision": "Compare supporting and contradicting evidence for each hypothesis."
+    },
+    {
+      "action": "rank evidence",
+      "observation": "Evidence sources have different reliability weights and contradictions reduce hypothesis scores.",
+      "decision": "Prefer the hypothesis with the strongest weighted evidence."
+    },
+    {
+      "action": "run safe counterfactual replay",
+      "observation": "Removing selected evidence can test whether the diagnosis remains stable.",
+      "decision": "Use replay results as additional evidence; keep all experiments simulation-only.",
+      "human_checkpoint": true
+    },
+    {
+      "action": "produce incident report",
+      "observation": "The final report contains ranked hypotheses with supporting and counter-evidence counts.",
+      "decision": "Return the highest-supported diagnosis with auditable evidence."
+    }
+  ]
+}

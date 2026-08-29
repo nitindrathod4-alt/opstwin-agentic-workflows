@@ -1,0 +1,37 @@
+{
+  "dataset_size": 5,
+  "correct": 5,
+  "accuracy": 1.0,
+  "rows": [
+    {
+      "id": "ADV-001",
+      "expected": "deployment_regression",
+      "predicted": "deployment_regression",
+      "correct": true
+    },
+    {
+      "id": "ADV-002",
+      "expected": "network_timeout",
+      "predicted": "network_timeout",
+      "correct": true
+    },
+    {
+      "id": "ADV-003",
+      "expected": "authentication_failure",
+      "predicted": "authentication_failure",
+      "correct": true
+    },
+    {
+      "id": "ADV-004",
+      "expected": "database_connection_exhaustion",
+      "predicted": "database_connection_exhaustion",
+      "correct": true
+    },
+    {
+      "id": "ADV-005",
+      "expected": "memory_leak",
+      "predicted": "memory_leak",
+      "correct": true
+    }
+  ]
+}

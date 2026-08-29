@@ -1,0 +1,68 @@
+{
+  "dataset_size": 10,
+  "baseline_accuracy": 0.8,
+  "advanced_accuracy": 1.0,
+  "absolute_improvement": 0.2,
+  "rows": [
+    {
+      "id": "INC-001",
+      "expected": "database_connection_exhaustion",
+      "baseline": "database_connection_exhaustion",
+      "advanced": "database_connection_exhaustion"
+    },
+    {
+      "id": "INC-002",
+      "expected": "memory_leak",
+      "baseline": "memory_leak",
+      "advanced": "memory_leak"
+    },
+    {
+      "id": "INC-003",
+      "expected": "deployment_regression",
+      "baseline": "deployment_regression",
+      "advanced": "deployment_regression"
+    },
+    {
+      "id": "INC-004",
+      "expected": "network_timeout",
+      "baseline": "network_timeout",
+      "advanced": "network_timeout"
+    },
+    {
+      "id": "INC-005",
+      "expected": "authentication_failure",
+      "baseline": "authentication_failure",
+      "advanced": "authentication_failure"
+    },
+    {
+      "id": "INC-006",
+      "expected": "database_connection_exhaustion",
+      "baseline": "deployment_regression",
+      "advanced": "database_connection_exhaustion"
+    },
+    {
+      "id": "INC-007",
+      "expected": "network_timeout",
+      "baseline": "network_timeout",
+      "advanced": "network_timeout"
+    },
+    {
+      "id": "INC-008",
+      "expected": "authentication_failure",
+      "baseline": "deployment_regression",
+      "advanced": "authentication_failure"
+    },
+    {
+      "id": "INC-009",
+      "expected": "memory_leak",
+      "baseline": "memory_leak",
+      "advanced": "memory_leak"
+    },
+    {
+      "id": "INC-010",
+      "expected": "deployment_regression",
+      "baseline": "deployment_regression",
+      "advanced": "deployment_regression"
+    }
+  ]
+}
