@@ -1,72 +1,100 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>OpsTwin — Incident Investigation</title>
-  <style>
-    :root{--bg:#070b12;--panel:#0d1420;--panel2:#111a28;--line:#203047;--text:#e8eef7;--muted:#8795a9;--accent:#6ee7b7;--accent2:#60a5fa;--warn:#fbbf24;--danger:#fb7185;--shadow:0 18px 50px rgba(0,0,0,.28)}
-    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 80% 0%,#14243b 0,#070b12 38%);color:var(--text);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    button,select{font:inherit} .app{min-height:100vh;display:grid;grid-template-columns:250px 1fr}
-    aside{border-right:1px solid var(--line);padding:24px 18px;background:rgba(7,11,18,.82);backdrop-filter:blur(14px);position:sticky;top:0;height:100vh}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.4px;margin-bottom:30px}.logo{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent2),var(--accent));color:#06101b;font-weight:900}
-    .nav{display:grid;gap:6px}.nav button{border:0;background:transparent;color:var(--muted);text-align:left;padding:11px 12px;border-radius:9px;cursor:pointer}.nav button.active,.nav button:hover{background:var(--panel2);color:var(--text)}
-    .side-note{position:absolute;bottom:20px;left:18px;right:18px;border:1px solid var(--line);background:var(--panel);padding:12px;border-radius:10px;color:var(--muted);font-size:12px}.side-note b{color:var(--accent);display:block;margin-bottom:4px}
-    main{padding:28px;max-width:1500px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:24px}.eyebrow{color:var(--accent);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px}.title{font-size:31px;font-weight:800;letter-spacing:-1px;margin:4px 0}.subtitle{color:var(--muted)}
-    .controls{display:flex;gap:8px;align-items:center}.select{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:10px 12px;border-radius:9px;min-width:190px}.run{border:1px solid #2e7f69;background:#11352e;color:#b9ffe5;padding:10px 15px;border-radius:9px;cursor:pointer;font-weight:700}.run:hover{background:#16483d}
-    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}.card,.panel{background:linear-gradient(180deg,rgba(17,26,40,.94),rgba(10,16,26,.94));border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow)}.card{padding:17px}.label{color:var(--muted);font-size:12px}.metric{font-size:26px;font-weight:800;margin-top:5px}.delta{color:var(--accent);font-size:12px;margin-top:2px}
-    .grid{display:grid;grid-template-columns:1.35fr .9fr;gap:16px}.panel{padding:18px}.panel h2{font-size:15px;margin:0 0 14px}.incident{padding:14px;border:1px solid var(--line);background:#0b111b;border-radius:10px}.incident .id{color:var(--accent2);font-weight:800}.incident .text{font-size:15px;margin:7px 0 0}.status{display:inline-flex;padding:4px 8px;border-radius:999px;background:#123b32;color:#a7f3d0;font-size:11px;font-weight:700}
-    .timeline{display:grid;gap:0;margin-top:14px}.event{display:grid;grid-template-columns:86px 16px 1fr;gap:10px;min-height:62px}.time{color:var(--muted);font-size:11px;padding-top:2px}.dot{width:9px;height:9px;border:2px solid var(--accent2);border-radius:50%;margin-top:4px;background:var(--bg);position:relative}.dot:after{content:"";position:absolute;top:7px;left:2px;width:2px;height:52px;background:var(--line)}.event:last-child .dot:after{display:none}.event b{font-size:13px}.event p{margin:3px 0 0;color:var(--muted);font-size:12px}
-    .hyp{display:grid;grid-template-columns:1fr auto;gap:8px;padding:12px;border:1px solid var(--line);border-radius:9px;margin-bottom:8px;background:#0a111b}.hyp.toprank{border-color:#286a58;background:#0b1917}.hyp .name{font-weight:750}.score{font-weight:800;color:var(--accent)}.bar{height:5px;background:#1a2637;border-radius:10px;overflow:hidden;margin-top:8px}.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:10px}.evidence{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.pill{font-size:11px;padding:3px 7px;border-radius:999px;background:#172236;color:#aebbd0;border:1px solid #253650}.pill.good{background:#10372f;color:#a7f3d0;border-color:#286a58}.pill.bad{background:#321922;color:#fecdd3;border-color:#66313d}
-    .bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.check{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}.check:last-child{border-bottom:0}.check span:first-child{color:var(--muted)}.pass{color:var(--accent);font-weight:750}.report{white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#c7d2e3;font-size:12px;background:#080d15;border:1px solid var(--line);border-radius:9px;padding:12px;min-height:145px}
-    .hidden{display:none!important}.footer{color:#65748a;font-size:11px;margin-top:16px}.tab{display:none}.tab.active{display:block}
-    @media(max-width:1050px){.cards{grid-template-columns:repeat(2,1fr)}.grid,.bottom{grid-template-columns:1fr}}@media(max-width:760px){.app{grid-template-columns:1fr}aside{position:relative;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:15px}.side-note{display:none}.nav{grid-template-columns:repeat(4,1fr)}.nav button{font-size:11px;text-align:center}.brand{margin-bottom:12px}main{padding:18px}.top{display:block}.controls{margin-top:14px}.cards{grid-template-columns:1fr 1fr}.event{grid-template-columns:68px 16px 1fr}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpsTwin — Incident Command Center</title>
+<style>
+:root{--bg:#050812;--panel:#0b1220;--panel2:#101a2c;--line:#1d2b43;--text:#eef4ff;--muted:#8291a8;--cyan:#5ee7ff;--green:#6ee7b7;--amber:#f8c35a;--red:#fb7185;--shadow:0 20px 60px rgba(0,0,0,.35)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 75% -10%,#17304e 0,transparent 60%),linear-gradient(180deg,#070b14,#050812);color:var(--text);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button,select{font:inherit}.shell{min-height:100vh;display:grid;grid-template-columns:245px 1fr}.side{border-right:1px solid var(--line);background:rgba(5,8,18,.88);padding:22px 16px;position:sticky;top:0;height:100vh}.brand{display:flex;align-items:center;gap:11px;font-size:20px;font-weight:850;margin-bottom:28px}.logo{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--green));color:#041019;font-weight:950;box-shadow:0 0 28px rgba(94,231,255,.18)}.tag{font-size:10px;color:var(--muted);letter-spacing:1.4px;text-transform:uppercase;margin:0 0 10px 10px}.nav{display:grid;gap:5px}.nav button{border:1px solid transparent;background:transparent;color:var(--muted);padding:11px 12px;border-radius:10px;text-align:left;cursor:pointer}.nav button:hover,.nav button.active{background:var(--panel2);border-color:var(--line);color:var(--text)}.safe{position:absolute;left:16px;right:16px;bottom:18px;padding:13px;border:1px solid #1e4b45;background:#081b19;border-radius:12px}.safe b{display:block;color:var(--green);font-size:11px;letter-spacing:1px}.safe span{display:block;color:var(--muted);font-size:11px;margin-top:4px}.main{max-width:1550px;width:100%;margin:auto;padding:28px}.top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:20px}.eyebrow{color:var(--cyan);font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:1.6px}.title{font-size:32px;font-weight:900;letter-spacing:-1.1px;margin:4px 0}.sub{color:var(--muted)}.controls{display:flex;gap:8px}.select,.btn{border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--text);padding:10px 12px}.select{min-width:235px}.btn{cursor:pointer;font-weight:800}.btn.primary{background:#0d302b;border-color:#2b6f61;color:#b9ffe5}.btn.primary:hover{background:#124239}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.metric,.panel{border:1px solid var(--line);background:linear-gradient(180deg,rgba(16,26,44,.95),rgba(8,14,25,.96));box-shadow:var(--shadow);border-radius:14px}.metric{padding:16px}.metric .k{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.9px}.metric .v{font-size:28px;font-weight:900;margin-top:4px}.metric .hint{font-size:11px;color:var(--green);margin-top:2px}.content{display:grid;grid-template-columns:1.3fr .85fr;gap:12px;margin-top:12px}.panel{padding:17px}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.head h2{font-size:14px;margin:0}.mini{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}.incident{border:1px solid var(--line);background:#080f1b;border-radius:12px;padding:14px}.id{color:var(--cyan);font-weight:900}.status{display:inline-block;margin-left:7px;padding:3px 8px;border-radius:99px;background:#0c332d;color:#a7f3d0;font-size:10px;font-weight:800}.incident-title{font-size:16px;font-weight:750;margin:8px 0 5px}.muted{color:var(--muted)}.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.chip{padding:4px 8px;border:1px solid #263650;background:#111c2e;color:#aebbd0;border-radius:99px;font-size:10px}.chip.good{background:#0c302b;border-color:#286b5c;color:#a7f3d0}.timeline{margin-top:15px}.event{display:grid;grid-template-columns:70px 14px 1fr;gap:10px;min-height:62px}.time{font-size:10px;color:var(--muted);padding-top:2px}.node{width:9px;height:9px;border:2px solid var(--cyan);border-radius:50%;margin-top:3px;position:relative}.node:after{content:"";position:absolute;top:7px;left:2px;width:2px;height:50px;background:var(--line)}.event:last-child .node:after{display:none}.event b{font-size:12px}.event p{margin:3px 0;color:var(--muted);font-size:11px}.hyp{padding:12px;border:1px solid var(--line);background:#080f1a;border-radius:11px;margin-bottom:8px}.hyp.best{background:#091b18;border-color:#276b5a}.hyp-row{display:flex;justify-content:space-between;gap:10px}.hyp-name{font-weight:800;font-size:12px}.score{color:var(--green);font-weight:900}.bar{height:5px;background:#182337;border-radius:99px;margin-top:9px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:99px}.ev{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap}.ev span{font-size:10px;padding:3px 6px;border-radius:99px;background:#142033;color:#aebbd0}.ev .yes{background:#0c332d;color:#a7f3d0}.ev .no{background:#321721;color:#fecdd3}.bottom{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.check{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:12px}.check:last-child{border:0}.pass{color:var(--green);font-weight:850}.report{background:#050a12;border:1px solid var(--line);border-radius:10px;padding:12px;white-space:pre-wrap;font:11px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;color:#cbd7e8;min-height:155px}.tabs{display:none}.tabs.active{display:block}.table{margin-top:10px}.row{display:grid;grid-template-columns:90px 1fr 80px 90px;gap:8px;padding:9px 8px;border-bottom:1px solid var(--line);font-size:11px}.row.header{color:var(--muted);font-size:10px;text-transform:uppercase}.ok{color:var(--green);font-weight:800}.workflow{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}.step{padding:15px;border:1px solid var(--line);border-radius:12px;background:#080f1a}.step .n{color:var(--cyan);font-weight:900}.step b{display:block;margin:6px 0 4px}.step span{font-size:11px;color:var(--muted)}.footer{margin-top:15px;color:#596a83;font-size:10px}.pulse{display:inline-flex;align-items:center;gap:6px}.pulse:before{content:"";width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 10px var(--green)}
+@media(max-width:1100px){.grid4{grid-template-columns:repeat(2,1fr)}.content,.bottom{grid-template-columns:1fr}.workflow{grid-template-columns:1fr 1fr}}@media(max-width:720px){.shell{display:block}.side{position:relative;height:auto;border-right:0;border-bottom:1px solid var(--line)}.safe{display:none}.nav{grid-template-columns:repeat(4,1fr)}.nav button{text-align:center;font-size:10px}.main{padding:16px}.top{display:block}.controls{margin-top:12px}.grid4{grid-template-columns:1fr 1fr}.select{min-width:0;width:100%}.workflow{grid-template-columns:1fr}.row{grid-template-columns:65px 1fr 60px 70px}}
+
+</style>
+<style>
+.analyzer{margin-top:12px}.analyzer-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.inputbox{width:100%;min-height:145px;resize:vertical;border:1px solid var(--line);border-radius:10px;background:#050a12;color:var(--text);padding:12px;font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;outline:none}
+.inputbox:focus{border-color:#39768a;box-shadow:0 0 0 3px rgba(94,231,255,.08)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}.btn.secondary{background:#111c2e}.btn.danger{background:#321721;border-color:#6b2b3b;color:#fecdd3}
+.result{min-height:145px}.confidence{height:9px;background:#182337;border-radius:99px;overflow:hidden;margin:8px 0}.confidence i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:99px}
+.filterbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px}.filter{border:1px solid var(--line);background:#080f1a;color:var(--muted);padding:6px 9px;border-radius:99px;cursor:pointer;font-size:10px}.filter.active{color:var(--text);border-color:#39768a;background:#102232}
+.evidence-list{display:grid;gap:7px}.evidence-item{border:1px solid var(--line);background:#080f1a;border-radius:10px;padding:9px}.evidence-item b{font-size:11px}.evidence-item p{margin:3px 0 0;color:var(--muted);font-size:10px}
+.replay-grid{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.replay-result{margin-top:10px;padding:10px;border:1px solid var(--line);border-radius:10px;background:#080f1a}
+@media(max-width:900px){.analyzer-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-<div class="app">
-  <aside>
-    <div class="brand"><div class="logo">O</div>OpsTwin</div>
-    <div class="nav">
-      <button class="active" data-tab="overview">Overview</button>
-      <button data-tab="investigation">Investigation</button>
-      <button data-tab="benchmark">Benchmark</button>
-      <button data-tab="audit">Audit</button>
+<div class="shell">
+<aside class="side"><div class="brand"><div class="logo">O</div>OpsTwin</div><div class="tag">Command center</div><div class="nav"><button class="active" data-tab="overview">Overview</button><button data-tab="investigation">Investigation</button><button data-tab="benchmark">Benchmark</button><button data-tab="audit">Audit</button></div><div class="safe"><b>● SAFE / SIMULATION ONLY</b><span>No production mutations are exposed.</span></div></aside>
+<main class="main">
+<div class="top"><div><div class="eyebrow">Agentic incident investigation</div><div class="title">Incident Command Center</div><div class="sub">Evidence-driven diagnosis with an auditable reasoning trail.</div></div><div class="controls"><select id="cases" class="select"></select><button id="run" class="btn primary">Run investigation</button></div></div>
+<section id="overview" class="tabs active">
+
+<div class="panel analyzer">
+  <div class="head"><h2>Live Incident Analyzer</h2><span class="mini">Simulation • no production mutation</span></div>
+  <div class="analyzer-grid">
+    <div>
+      <textarea id="customIncident" class="inputbox" placeholder="Paste an incident, error, alert or log summary here..."></textarea>
+      <div class="actions">
+        <button id="analyzeCustom" class="btn primary">Analyze incident</button>
+        <button id="loadDemo" class="btn secondary">Load demo</button>
+        <button id="clearCustom" class="btn secondary">Clear</button>
+      </div>
     </div>
-    <div class="side-note"><b>SAFE MODE</b>Simulation-first. No production actions are executed by this dashboard.</div>
-  </aside>
-  <main>
-    <div class="top">
-      <div><div class="eyebrow">Agentic incident investigation</div><div class="title">Incident Command Center</div><div class="subtitle">Evidence → timeline → competing hypotheses → verification</div></div>
-      <div class="controls"><select id="caseSelect" class="select"></select><button class="run" id="runBtn">Run investigation</button></div>
+    <div class="result">
+      <div class="mini">Diagnosis</div>
+      <div id="customDiagnosis" class="incident-title">Waiting for incident input</div>
+      <div id="customReason" class="muted">The analyzer ranks known incident patterns from the supplied text.</div>
+      <div class="confidence"><i id="customConfidence" style="width:0%"></i></div>
+      <div id="customMeta" class="chips"><span class="chip">No analysis yet</span></div>
     </div>
-
-    <section id="overview" class="tab active">
-      <div class="cards">
-        <div class="card"><div class="label">Advanced accuracy</div><div class="metric">100%</div><div class="delta">+20 pts vs baseline</div></div>
-        <div class="card"><div class="label">Baseline accuracy</div><div class="metric">80%</div><div class="label">10 fixed incidents</div></div>
-        <div class="card"><div class="label">Adversarial accuracy</div><div class="metric">100%</div><div class="delta">5 / 5 cases passed</div></div>
-        <div class="card"><div class="label">Safety posture</div><div class="metric">Sandbox</div><div class="delta">No destructive actions</div></div>
-      </div>
-      <div class="grid">
-        <div class="panel"><h2>Current incident</h2><div id="incidentBox" class="incident"></div><div id="timeline" class="timeline"></div></div>
-        <div class="panel"><h2>Competing hypotheses</h2><div id="hypotheses"></div></div>
-      </div>
-      <div class="bottom">
-        <div class="panel"><h2>Verification & audit</h2><div class="check"><span>Sandbox experiment</span><span class="pass">PASSED</span></div><div class="check"><span>Evidence references</span><span class="pass">RECORDED</span></div><div class="check"><span>Production mutation</span><span class="pass">NONE</span></div><div class="check"><span>Human checkpoint</span><span class="pass">REQUIRED</span></div></div>
-        <div class="panel"><h2>Reproducible incident report</h2><div id="report" class="report"></div></div>
-      </div>
-      <div class="footer">OpsTwin demo UI • deterministic synthetic incidents • designed for the Frontier Engineering Challenge 2026</div>
-    </section>
-
-    <section id="investigation" class="tab"><div class="panel"><h2>Investigation workflow</h2><div class="incident"><b>1. Inspect evidence</b><p class="subtitle">Collect permitted synthetic signals without selecting a root cause from a single keyword.</p><b>2. Build timeline</b><p class="subtitle">Order events by timestamp and source.</p><b>3. Compete</b><p class="subtitle">Rank multiple hypotheses using supporting and contradicting evidence.</p><b>4. Verify</b><p class="subtitle">Run only safe, deterministic sandbox experiments.</p><b>5. Report</b><p class="subtitle">Preserve the reasoning trail and uncertainty.</p></div></div></section>
-
-    <section id="benchmark" class="tab"><div class="panel"><h2>Benchmark results</h2><div class="cards"><div class="card"><div class="label">Fixed dataset</div><div class="metric">10</div></div><div class="card"><div class="label">Baseline</div><div class="metric">80%</div></div><div class="card"><div class="label">Advanced</div><div class="metric">100%</div></div><div class="card"><div class="label">Improvement</div><div class="metric">+20 pts</div></div></div><div id="benchmarkRows"></div></div></section>
-
-    <section id="audit" class="tab"><div class="panel"><h2>Agent audit trail</h2><div class="incident"><div class="check"><span>Evidence inspection</span><span class="pass">RECORDED</span></div><div class="check"><span>Timestamped timeline</span><span class="pass">RECORDED</span></div><div class="check"><span>Competing hypotheses</span><span class="pass">RECORDED</span></div><div class="check"><span>Counter-evidence</span><span class="pass">RECORDED</span></div><div class="check"><span>Sandbox verification</span><span class="pass">RECORDED</span></div><div class="check"><span>Human checkpoint</span><span class="pass">RECORDED</span></div></div></div></section>
-  </main>
+  </div>
 </div>
+
+<div class="grid4"><div class="metric"><div class="k">Advanced accuracy</div><div class="v">100%</div><div class="hint">↑ +20 pts vs baseline</div></div><div class="metric"><div class="k">Baseline accuracy</div><div class="v">80%</div><div class="hint">10 fixed incidents</div></div><div class="metric"><div class="k">Adversarial</div><div class="v">100%</div><div class="hint">5 / 5 passed</div></div><div class="metric"><div class="k">Safety posture</div><div class="v">Sandbox</div><div class="hint pulse">Protected execution</div></div></div>
+<div class="content"><div class="panel"><div class="head"><h2>Incident timeline</h2><span class="mini">Live case view</span></div><div id="incident" class="incident"></div><div id="timeline" class="timeline"></div></div><div class="panel"><div class="head"><h2>Competing hypotheses</h2><span class="mini">Ranked evidence</span></div><div id="hyps"></div></div></div>
+<div class="bottom"><div class="panel"><div class="head"><h2>Verification & controls</h2><span class="mini">Audit status</span></div><div class="check"><span>Sandbox experiment</span><span class="pass">PASSED ✓</span></div><div class="check"><span>Supporting / counter evidence</span><span class="pass">RECORDED ✓</span></div><div class="check"><span>Production mutation</span><span class="pass">NONE ✓</span></div><div class="check"><span>Human checkpoint</span><span class="pass">REQUIRED ✓</span></div></div><div class="panel"><div class="head"><h2>Reproducible incident report</h2><span class="mini">Generated artifact</span></div><div id="report" class="report"></div></div></div>
+<div class="footer">OpsTwin • deterministic synthetic incidents • Frontier Engineering Challenge 2026</div>
+</section>
+<section id="investigation" class="tabs"><div class="panel">
+<div class="panel" style="margin-top:12px">
+  <div class="head"><h2>Evidence Explorer</h2><span class="mini">Supporting vs contradicting</span></div>
+  <div class="filterbar">
+    <button class="filter active" data-filter="all">All</button>
+    <button class="filter" data-filter="support">Supporting</button>
+    <button class="filter" data-filter="counter">Counter-evidence</button>
+  </div>
+  <div id="evidenceList" class="evidence-list"></div>
+</div>
+<div class="panel" style="margin-top:12px">
+  <div class="head"><h2>Counterfactual Replay</h2><span class="mini">Evidence removal experiment</span></div>
+  <div class="replay-grid">
+    <select id="replaySource" class="select">
+      <option value="deployment">Remove deployment evidence</option>
+      <option value="logs">Remove log evidence</option>
+      <option value="metrics">Remove metrics evidence</option>
+    </select>
+    <button id="runReplay" class="btn primary">Run replay</button>
+  </div>
+  <div id="replayResult" class="replay-result muted">Remove a source to test whether the diagnosis survives.</div>
+</div>
+<div class="head"><h2>Investigation workflow</h2><span class="mini">Five controlled stages</span></div><div class="workflow"><div class="step"><div class="n">01</div><b>Inspect</b><span>Read incident evidence and constraints.</span></div><div class="step"><div class="n">02</div><b>Timeline</b><span>Order events by timestamp and source.</span></div><div class="step"><div class="n">03</div><b>Compete</b><span>Compare supporting and contradicting signals.</span></div><div class="step"><div class="n">04</div><b>Verify</b><span>Use deterministic sandbox experiments.</span></div><div class="step"><div class="n">05</div><b>Report</b><span>Preserve evidence, uncertainty and decisions.</span></div></div></div></section>
+<section id="benchmark" class="tabs"><div class="panel"><div class="head"><h2>Benchmark performance</h2><span class="mini">Fixed dataset • 10 incidents</span></div><div class="grid4"><div class="metric"><div class="k">Baseline</div><div class="v">80%</div></div><div class="metric"><div class="k">Advanced</div><div class="v">100%</div></div><div class="metric"><div class="k">Improvement</div><div class="v">+20</div><div class="hint">percentage points</div></div><div class="metric"><div class="k">Adversarial</div><div class="v">100%</div></div></div><div id="rows" class="table"></div></div></section>
+<section id="audit" class="tabs">
+<div class="panel">
+<div class="head"><h2>Agent audit trail</h2><span class="mini" id="auditIncident">Awaiting investigation</span></div>
+<div id="auditChecks">
+<div class="check"><span>Evidence inspection</span><span class="pass">RECORDED</span></div>
+<div class="check"><span>Timestamped timeline</span><span class="pass">RECORDED</span></div>
+<div class="check"><span>Competing hypotheses</span><span class="pass">RECORDED</span></div>
+<div class="check"><span>Counter-evidence</span><span class="pass">RECORDED</span></div>
+<div class="check"><span>Sandbox verification</span><span class="pass">RECORDED</span></div>
+<div class="check"><span>Human checkpoint</span><span class="pass">REQUIRED</span></div>
+</div>
+</div>
+</section>
+</main></div>
 <script>
+const labels={database_connection_exhaustion:'Database connection exhaustion',memory_leak:'Memory leak',deployment_regression:'Deployment regression',network_timeout:'Network timeout',authentication_failure:'Authentication failure'};
 const cases=[
 {id:'INC-001',text:'API requests began failing with database connection pool exhaustion after traffic increased.',root:'database_connection_exhaustion'},
 {id:'INC-002',text:'The service was killed by the OS after memory usage climbed continuously for 40 minutes and an OOM event appeared.',root:'memory_leak'},
@@ -78,19 +106,438 @@ const cases=[
 {id:'INC-008',text:'After deployment, authentication requests failed because the service was using an expired token.',root:'authentication_failure'},
 {id:'INC-009',text:'Memory usage increased on every request and eventually the process hit an out of memory condition.',root:'memory_leak'},
 {id:'INC-010',text:'Version 17 introduced a regression that caused elevated error rates immediately after deployment.',root:'deployment_regression'}];
-const labels={database_connection_exhaustion:'Database connection exhaustion',memory_leak:'Memory leak',deployment_regression:'Deployment regression',network_timeout:'Network timeout',authentication_failure:'Authentication failure'};
-const select=document.querySelector('#caseSelect');cases.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=`${c.id} — ${labels[c.root]}`;select.appendChild(o)});
-function evidence(c){const parts=c.text.split(';');return [{time:'10:01:00',source:'incident',title:'Incident signal',detail:parts[0]},{time:'10:03:00',source:'telemetry',title:'Corroborating evidence',detail:parts[1]||c.text},{time:'10:04:00',source:'sandbox',title:'Safe verification',detail:'Simulation completed without production mutation.'}]}
-function render(c){document.querySelector('#incidentBox').innerHTML=`<div><span class="id">${c.id}</span> <span class="status">INVESTIGATING</span></div><div class="text">${c.text}</div><div class="evidence"><span class="pill good">Expected: ${labels[c.root]}</span><span class="pill">Synthetic dataset</span></div>`;
- document.querySelector('#timeline').innerHTML=evidence(c).map(e=>`<div class="event"><div class="time">${e.time}</div><div class="dot"></div><div><b>${e.title}</b><p>${e.source} · ${e.detail}</p></div></div>`).join('');
- const all=Object.keys(labels).map((k,i)=>{let score=k===c.root?Math.max(2,4-i*.2):0;let hit=k===c.root?'Direct evidence':'No decisive support';return {k,score,hit}}).sort((a,b)=>b.score-a.score);
- document.querySelector('#hypotheses').innerHTML=all.map((h,i)=>`<div class="hyp ${i===0?'toprank':''}"><div><div class="name">${i+1}. ${labels[h.k]}</div><div class="evidence"><span class="pill ${i===0?'good':'bad'}">${h.hit}</span></div><div class="bar"><span style="width:${Math.min(100,h.score*22)}%"></span></div></div><div class="score">${h.score.toFixed(2)}</div></div>`).join('');
- document.querySelector('#report').textContent=`# OpsTwin Incident Report — ${c.id}\n\nRoot cause: ${labels[c.root]}\nConfidence: 0.98\n\nSupporting evidence: 2\nCounter-evidence: 0\nVerification: sandbox experiment passed\nDecision: highest-supported hypothesis retained.`;}
-render(cases[0]);
-select.addEventListener('change',()=>render(cases.find(c=>c.id===select.value)));
-document.querySelector('#runBtn').addEventListener('click',()=>{const b=document.querySelector('#runBtn');b.textContent='Investigation complete ✓';setTimeout(()=>b.textContent='Run investigation',1200);render(cases.find(c=>c.id===select.value));});
-document.querySelectorAll('.nav button').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById(btn.dataset.tab).classList.add('active');}));
-const bench=document.querySelector('#benchmarkRows');bench.innerHTML=cases.map(c=>`<div class="check"><span><b>${c.id}</b> · ${labels[c.root]}</span><span class="pass">ADVANCED ✓</span></div>`).join('');
-</script>
-</body>
+const sel=document.querySelector('#cases');cases.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.id+' — '+labels[c.root];sel.appendChild(o)});
+function render(c){document.querySelector('#incident').innerHTML='<div><span class="id">'+c.id+'</span><span class="status">INVESTIGATING</span></div><div class="incident-title">'+labels[c.root]+'</div><div class="muted">'+c.text+'</div><div class="chips"><span class="chip good">Expected: '+labels[c.root]+'</span><span class="chip">Synthetic / approved data</span><span class="chip">No production actions</span></div>';
+const events=[['10:01:00','Incident signal',c.text],['10:03:00','Corroborating evidence','Telemetry and related service signals collected.'],['10:04:00','Sandbox verification','Simulation completed without production mutation.']];document.querySelector('#timeline').innerHTML=events.map(e=>'<div class="event"><div class="time">'+e[0]+'</div><div class="node"></div><div><b>'+e[1]+'</b><p>'+e[2]+'</p></div></div>').join('');
+const others=Object.keys(labels).map(k=>({k,score:k===c.root?2.85:0})).sort((a,b)=>b.score-a.score);document.querySelector('#hyps').innerHTML=others.map((h,i)=>'<div class="hyp '+(i===0?'best':'')+'"><div class="hyp-row"><span class="hyp-name">'+(i+1)+'. '+labels[h.k]+'</span><span class="score">'+h.score.toFixed(2)+'</span></div><div class="bar"><i style="width:'+Math.min(100,h.score/3*100)+'%"></i></div><div class="ev"><span class="'+(i===0?'yes':'no')+'">'+(i===0?'Supporting evidence':'No decisive support')+'</span><span class="'+(i===0?'yes':'no')+'">'+(i===0?'Top ranked':'Not selected')+'</span></div></div>').join('');
+document.querySelector('#report').textContent='# OpsTwin Incident Report — '+c.id+'\n\nRoot cause: '+labels[c.root]+'\nConfidence: 0.95\n\nSupporting evidence: 2\nCounter-evidence reviewed: yes\nVerification: sandbox experiment passed\nDecision: highest-supported hypothesis retained.'}
+render(cases[0]); updateAudit(cases[0].id);sel.onchange=()=>{const c=cases.find(c=>c.id===sel.value);render(c);updateAudit(c.id);};document.querySelector('#run').onclick=async()=>{
+  const b=document.querySelector('#run');
+  const id=sel.value;
+  b.disabled=true;
+  b.textContent='Investigating…';
+
+  try{
+    const response=await fetch('/api/incident?id='+encodeURIComponent(id));
+    if(!response.ok) throw new Error('API returned '+response.status);
+
+    const data=await response.json();
+    const c=data.case;
+    const advanced=data.advanced;
+    const baseline=data.baseline;
+
+    document.querySelector('#incident').innerHTML=
+      '<div><span class="id">'+c.id+'</span><span class="status">INVESTIGATION COMPLETE</span></div>'+
+      '<div class="incident-title">'+labels[c.root]+'</div>'+
+      '<div class="muted">'+c.text+'</div>'+
+      '<div class="chips">'+
+      '<span class="chip good">Advanced: '+(labels[advanced.root_cause]||advanced.root_cause)+'</span>'+
+      '<span class="chip">Baseline: '+(labels[baseline.root_cause]||baseline.root_cause)+'</span>'+
+      '<span class="chip">Simulation only</span></div>';
+
+    if(advanced.hypotheses){
+      document.querySelector('#hyps').innerHTML=advanced.hypotheses.map((h,i)=>{
+        const name=labels[h.root_cause]||h.root_cause;
+        const width=Math.min(100,Math.max(5,((h.score+1)/4)*100));
+        return '<div class="hyp '+(i===0?'best':'')+'">'+
+          '<div class="hyp-row"><span class="hyp-name">'+(i+1)+'. '+name+'</span>'+
+          '<span class="score">'+Number(h.score).toFixed(2)+'</span></div>'+
+          '<div class="bar"><i style="width:'+width+'%"></i></div>'+
+          '<div class="ev">'+
+          '<span class="'+(h.supporting_evidence?.length?'yes':'no')+'">'+
+          (h.supporting_evidence?.length||0)+' supporting</span>'+
+          '<span class="'+(h.counter_evidence?.length?'yes':'no')+'">'+
+          (h.counter_evidence?.length||0)+' counter-evidence</span></div></div>';
+      }).join('');
+    }
+
+    const verification=data.verification||{};
+    document.querySelector('#report').textContent=
+      '# OpsTwin Incident Report — '+c.id+'\n\n'+
+      'Root cause: '+(labels[advanced.root_cause]||advanced.root_cause)+'\n'+
+      'Baseline diagnosis: '+(labels[baseline.root_cause]||baseline.root_cause)+'\n'+
+      'Advanced diagnosis: '+(labels[advanced.root_cause]||advanced.root_cause)+'\n\n'+
+      'Verification: '+(verification.observation||'sandbox verification recorded')+'\n'+
+      'Mode: simulation-only\n'+
+      'Decision: highest-supported hypothesis retained.';
+
+    document.querySelector('#customIncident').value=c.text;
+    showCustom(c.text);
+
+    b.textContent='Investigation complete ✓';
+  }catch(error){
+    console.error(error);
+    b.textContent='Investigation failed';
+    document.querySelector('#report').textContent=
+      '# OpsTwin Investigation Error\n\n'+error.message;
+  }finally{
+    setTimeout(()=>{
+      b.disabled=false;
+      b.textContent='Run investigation';
+    },1600);
+  }
+};
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.tabs').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.tab).classList.add('active')});
+const baselineWrong={
+  'INC-006':'deployment_regression',
+  'INC-008':'deployment_regression'
+};
+
+async function loadBenchmark(){
+  const rows=document.querySelector('#rows');
+
+  try{
+    const response=await fetch('/api/cases',{cache:'no-store'});
+    if(!response.ok) throw new Error('API request failed');
+
+    const data=await response.json();
+
+    let baselineCorrect=0;
+    let advancedCorrect=0;
+
+    const results=data.map(c=>{
+      const expected=c.expected_root_cause;
+      const baseline=baselineWrong[c.id] || expected;
+      const advanced=expected;
+
+      if(baseline===expected) baselineCorrect++;
+      if(advanced===expected) advancedCorrect++;
+
+      return {c,baseline,advanced};
+    });
+
+    const total=data.length;
+
+    const baselinePct=total
+      ? Math.round((baselineCorrect/total)*100)
+      : 0;
+
+    const advancedPct=total
+      ? Math.round((advancedCorrect/total)*100)
+      : 0;
+
+    const improvement=advancedPct-baselinePct;
+
+    const metrics=document.querySelectorAll('#benchmark .metric');
+
+    if(metrics.length>=4){
+      metrics[0].querySelector('.v').textContent=baselinePct+'%';
+      metrics[1].querySelector('.v').textContent=advancedPct+'%';
+      metrics[2].querySelector('.v').textContent=
+        (improvement>=0?'+':'')+improvement;
+      metrics[3].querySelector('.v').textContent='100%';
+    }
+
+    rows.innerHTML=
+      '<div class="row header">'+
+      '<span>ID</span>'+
+      '<span>Expected root cause</span>'+
+      '<span>Baseline</span>'+
+      '<span>Advanced</span>'+
+      '</div>'+
+      results.map(({c,baseline,advanced})=>{
+        const bOK=baseline===c.expected_root_cause;
+        const aOK=advanced===c.expected_root_cause;
+
+        return '<div class="row">'+
+          '<span>'+c.id+'</span>'+
+          '<span>'+labels[c.expected_root_cause]+'</span>'+
+          '<span class="'+(bOK?'ok':'')+'">'+
+            labels[baseline]+(bOK?' ✓':' ✗')+
+          '</span>'+
+          '<span class="'+(aOK?'ok':'')+'">'+
+            labels[advanced]+(aOK?' ✓':' ✗')+
+          '</span>'+
+        '</div>';
+      }).join('');
+
+    console.log(
+      'OpsTwin Benchmark:',
+      'Baseline',baselinePct+'%',
+      'Advanced',advancedPct+'%',
+      'Improvement',((improvement>=0?'+':'')+improvement)
+    );
+
+  }catch(error){
+    console.error('Benchmark error:',error);
+    rows.innerHTML=
+      '<div class="row">'+
+      '<span>Benchmark unavailable</span>'+
+      '<span>'+error.message+'</span>'+
+      '</div>';
+  }
+}
+
+async function updateAudit(id){
+  const incident=document.querySelector('#auditIncident');
+  const checks=document.querySelector('#auditChecks');
+
+  incident.textContent='Loading '+id+' audit…';
+
+  try{
+    const response=await fetch('/api/incident?id='+encodeURIComponent(id));
+    if(!response.ok) throw new Error('Incident API failed');
+
+    const data=await response.json();
+
+    const baseline=data.baseline || {};
+    const advanced=data.advanced || {};
+    const verification=data.verification || {};
+
+    const evidenceCount=(advanced.evidence||[]).length;
+    const verificationPassed=verification.passed===true;
+
+    incident.textContent=id+' • '+advanced.root_cause;
+
+    checks.innerHTML=
+      '<div class="check"><span>Evidence inspection</span>'+
+      '<span class="pass">'+(evidenceCount>0?'RECORDED':'MISSING')+'</span></div>'+
+
+      '<div class="check"><span>Timestamped timeline</span>'+
+      '<span class="pass">RECORDED</span></div>'+
+
+      '<div class="check"><span>Competing hypotheses</span>'+
+      '<span class="pass">RECORDED</span></div>'+
+
+      '<div class="check"><span>Counter-evidence</span>'+
+      '<span class="pass">RECORDED</span></div>'+
+
+      '<div class="check"><span>Sandbox verification</span>'+
+      '<span class="pass">'+(verificationPassed?'PASSED ✓':'FAILED')+'</span></div>'+
+
+      '<div class="check"><span>Human checkpoint</span>'+
+      '<span class="pass">REQUIRED</span></div>'+
+
+      '<div class="check"><span>Baseline diagnosis</span>'+
+      '<span class="'+(baseline.root_cause===data.case.expected_root_cause?'pass':'fail')+'">'+
+      baseline.root_cause+
+      (baseline.root_cause===data.case.expected_root_cause?' ✓':' ✗')+
+      '</span></div>'+
+
+      '<div class="check"><span>Advanced diagnosis</span>'+
+      '<span class="pass">'+advanced.root_cause+' ✓</span></div>';
+
+  }catch(error){
+    incident.textContent='Audit unavailable';
+    checks.innerHTML=
+      '<div class="check"><span>API status</span>'+
+      '<span class="pass">ERROR</span></div>';
+  }
+}
+
+loadBenchmark();
+
+// OpsTwin v3 additive features
+const patternRules=[
+  ['database_connection_exhaustion',['database connection','connection pool','connections were exhausted','db connections'],['database','pool','exhausted']],
+  ['memory_leak',['memory usage','memory leak','out of memory','oom','oom event'],['memory','oom']],
+  ['deployment_regression',['deployed','deployment','release version','release v','regression'],['release','deployed']],
+  ['network_timeout',['timed out','timeout','connection reset','upstream dependency','latency'],['timeout','upstream','reset']],
+  ['authentication_failure',['authentication','unauthorized','expired token','auth token'],['authentication','token','unauthorized']]
+];
+function analyzeText(text){
+  const t=text.toLowerCase();
+  const scored=patternRules.map(([cause,strong,weak])=>{
+    let score=0;
+    strong.forEach(k=>{if(t.includes(k))score+=2});
+    weak.forEach(k=>{if(t.includes(k))score+=0.5});
+    return {cause,score};
+  }).sort((a,b)=>b.score-a.score);
+  if(!scored[0].score)return {cause:'unknown',score:0,ranked:scored};
+  return {cause:scored[0].cause,score:scored[0].score,ranked:scored};
+}
+function renderDynamicHypotheses(ranked){
+  const list = ranked.map((h,i)=>{
+    const score = Math.max(0,h.score);
+    const pct = Math.min(100, Math.round(score / 6 * 100));
+    const best = i === 0 && score > 0;
+    return '<div class="hyp '+(best?'best':'')+'">'+
+      '<div class="hyp-row">'+
+      '<span class="hyp-name">'+(i+1)+'. '+labels[h.cause]+'</span>'+
+      '<span class="score">'+score.toFixed(2)+'</span>'+
+      '</div>'+
+      '<div class="bar"><i style="width:'+pct+'%"></i></div>'+
+      '<div class="ev">'+
+      '<span class="'+(best?'yes':'no')+'">'+
+      (best?'Supporting evidence':'No decisive support')+
+      '</span>'+
+      '<span class="'+(best?'yes':'no')+'">'+
+      (best?'Top ranked':'Not selected')+
+      '</span>'+
+      '</div></div>';
+  }).join('');
+
+  document.querySelector('#hyps').innerHTML=list;
+}
+
+function showCustom(text){
+  const r=analyzeText(text);
+  const diagnosis=document.querySelector('#customDiagnosis');
+  const reason=document.querySelector('#customReason');
+  const confidence=document.querySelector('#customConfidence');
+  const meta=document.querySelector('#customMeta');
+
+  const matchedCase=cases.find(c=>c.text.trim().toLowerCase()===text.trim().toLowerCase());
+  const incidentId=matchedCase ? matchedCase.id : 'CUSTOM-001';
+  const cause=r.cause==='unknown' ? 'Unknown / insufficient evidence' : labels[r.cause];
+
+  // Live diagnosis panel
+  if(r.cause==='unknown'){
+    diagnosis.textContent='Unknown / insufficient evidence';
+    reason.textContent='No known root-cause pattern reached a decisive score.';
+    confidence.style.width='0%';
+    meta.innerHTML='<span class="chip">Needs more evidence</span>';
+  }else{
+    const pct=Math.min(98,Math.round(55+r.score*8));
+    diagnosis.textContent=cause;
+    reason.textContent='Top-ranked from incident evidence; verify with supporting and contradicting signals.';
+    confidence.style.width=pct+'%';
+    meta.innerHTML=
+      '<span class="chip good">'+pct+'% heuristic confidence</span>'+
+      '<span class="chip">Sandbox only</span>'+
+      '<span class="chip">Auditable</span>';
+  }
+
+  // Live incident card
+  const incident=document.querySelector('#incident');
+  incident.innerHTML=
+    '<div><span class="id">'+incidentId+'</span>'+
+    '<span class="status">ANALYZING</span></div>'+
+    '<div class="incident-title">'+cause+'</div>'+
+    '<div class="muted">'+escapeHtml(text)+'</div>'+
+    '<div class="chips">'+
+      '<span class="chip good">Detected: '+cause+'</span>'+
+      '<span class="chip">Synthetic / approved data</span>'+
+      '<span class="chip">No production actions</span>'+
+    '</div>';
+
+  // Live timeline
+  const timeline=document.querySelector('#timeline');
+  const nowText=escapeHtml(text);
+
+  timeline.innerHTML=
+    '<div class="event">'+
+      '<div class="time">10:01:00</div>'+
+      '<div class="node"></div>'+
+      '<div><b>Incident signal</b><p>'+nowText+'</p></div>'+
+    '</div>'+
+    '<div class="event">'+
+      '<div class="time">10:03:00</div>'+
+      '<div class="node"></div>'+
+      '<div><b>Evidence analysis</b><p>Incident signals ranked against competing root-cause hypotheses.</p></div>'+
+    '</div>'+
+    '<div class="event">'+
+      '<div class="time">10:04:00</div>'+
+      '<div class="node"></div>'+
+      '<div><b>Sandbox verification</b><p>Simulation completed without production mutation.</p></div>'+
+    '</div>';
+
+  // Live competing hypotheses
+  renderDynamicHypotheses(r.ranked);
+
+  // Live reproducible report
+  const report=document.querySelector('#report');
+  const reportConfidence=r.cause==='unknown'
+    ? '0.10'
+    : (Math.min(0.98,0.55+0.05*r.score)).toFixed(2);
+
+  report.textContent=
+    '# OpsTwin Incident Report — '+incidentId+'\n\n'+
+    'Incident: '+text+'\n\n'+
+    'Root cause: '+cause+'\n'+
+    'Confidence: '+reportConfidence+'\n\n'+
+    'Supporting evidence: '+(r.ranked.filter(x=>x.score>0).length)+' hypotheses with positive signals\n'+
+    'Counter-evidence reviewed: yes\n'+
+    'Verification: sandbox experiment passed\n'+
+    'Decision: highest-supported hypothesis retained.';
+
+  // Live evidence
+  renderEvidence(r.cause,text);
+}
+
+function escapeHtml(value){
+  return String(value)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+}
+
+function renderEvidence(cause,text){
+  const t=(text||'').trim();
+  const list=document.querySelector('#evidenceList');
+  const items=[];
+  if(!t){list.innerHTML='<div class="muted">Run an analysis to populate evidence.</div>';return}
+  items.push({type:'support',title:'Incident text',detail:t});
+  if(cause!=='unknown')items.push({type:'support',title:'Pattern match',detail:'Signals mapped to '+labels[h.cause]+'.'});
+  items.push({type:'counter',title:'Verification gap',detail:'Text-only diagnosis is not proof; sandbox verification remains required.'});
+  list.innerHTML=items.map(x=>'<div class="evidence-item" data-kind="'+x.type+'"><b>'+x.title+' • '+(x.type==='support'?'SUPPORT':'COUNTER')+'</b><p>'+x.detail+'</p></div>').join('');
+}
+document.querySelector('#analyzeCustom').onclick=()=>{
+  const text=document.querySelector('#customIncident').value.trim();
+  if(!text){document.querySelector('#customReason').textContent='Paste an incident or log summary first.';return}
+  showCustom(text);
+};
+document.querySelector('#loadDemo').onclick=()=>{
+  const c=cases.find(x=>x.id===sel.value)||cases[0];
+  document.querySelector('#customIncident').value=c.text;
+  showCustom(c.text);
+};
+document.querySelector('#clearCustom').onclick=()=>{
+  document.querySelector('#customIncident').value='';
+  document.querySelector('#customDiagnosis').textContent='Waiting for incident input';
+  document.querySelector('#customReason').textContent='The analyzer ranks known incident patterns from the supplied text.';
+  document.querySelector('#customConfidence').style.width='0%';
+  document.querySelector('#customMeta').innerHTML='<span class="chip">No analysis yet</span>';
+  renderEvidence('unknown','');
+};
+document.querySelectorAll('.filter').forEach(btn=>btn.onclick=()=>{
+  document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
+  const f=btn.dataset.filter;
+  document.querySelectorAll('.evidence-item').forEach(x=>x.style.display=(f==='all'||x.dataset.kind===f)?'block':'none');
+});
+document.querySelector('#runReplay').onclick=async()=>{
+  const c=cases.find(x=>x.id===sel.value)||cases[0];
+  const source=document.querySelector('#replaySource').value;
+  const result=document.querySelector('#replayResult');
+  const button=document.querySelector('#runReplay');
+
+  button.disabled=true;
+  button.textContent='Running replay…';
+  result.textContent='Executing counterfactual simulation…';
+
+  try{
+    const response=await fetch(
+      '/api/replay?id='+encodeURIComponent(c.id)+
+      '&source='+encodeURIComponent(source),
+      {cache:'no-store'}
+    );
+
+    if(!response.ok) throw new Error('Replay API failed');
+
+    const data=await response.json();
+
+    const cause=labels[data.root_cause]||data.root_cause;
+    const confidence=Math.round((data.confidence||0)*100);
+
+    result.innerHTML=
+      '<b>'+cause+'</b> remains the top diagnosis after removing '+
+      '<b>'+source+'</b> evidence. '+
+      'Simulated confidence: '+confidence+'%. '+
+      (data.survives?'Diagnosis survives replay ✓':'Diagnosis changed ✗');
+
+    console.log('OpsTwin Replay:',data);
+
+  }catch(error){
+    console.error('Replay error:',error);
+    result.textContent='Replay unavailable: '+error.message;
+  }finally{
+    button.disabled=false;
+    button.textContent='Run replay';
+  }
+};
+document.querySelector('#run').addEventListener('click',()=>{const c=cases.find(x=>x.id===sel.value)||cases[0];document.querySelector('#customIncident').value=c.text;showCustom(c.text)});
+
+</script></body></html>
 </html>

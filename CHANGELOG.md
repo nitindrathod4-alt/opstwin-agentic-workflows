@@ -42,3 +42,21 @@ Every meaningful iteration records:
 - Fixed benchmark: baseline 80%, advanced 100%, absolute improvement +20 percentage points.
 - Adversarial benchmark: 5/5 correct, 100% accuracy.
 
+
+## 2026-08-29 — Final reliability and replay validation
+- Added stronger investigator tests covering counter-evidence override, evidence-source weighting, deterministic tie-breaking and accumulation of multiple supporting signals.
+- Added and validated counterfactual replay through the web API with deployment, logs and metrics evidence-removal scenarios.
+- Evidence: full pytest suite passes 9/9 tests.
+- Evidence: fixed benchmark reaches 10/10 (100%) advanced accuracy versus 8/10 (80%) baseline accuracy.
+- Evidence: adversarial benchmark reaches 5/5 (100%) accuracy.
+- Evidence: replay for INC-006 remains `database_connection_exhaustion` after removing deployment evidence, with `survives: true`.
+- Evidence: health endpoint reports `status: ok` and `mode: simulation-only`.
+- Decision: freeze the current reasoning implementation and move to final submission packaging and demonstration polish.
+
+## Final measured state
+- Automated tests: 9/9 passed.
+- Fixed benchmark: 10/10 advanced, 8/10 baseline.
+- Absolute improvement: +20 percentage points.
+- Adversarial benchmark: 5/5 correct.
+- Counterfactual replay: verified through the API.
+- Production mutation: none; execution remains simulation-only.

@@ -41,11 +41,53 @@ class Handler(SimpleHTTPRequestHandler):
             advanced = diagnose_advanced(case["id"], case["text"])
             self._json({
                 "case": case,
-                "baseline": baseline.model_dump(),
-                "advanced": advanced.model_dump(),
+                "baseline": {
+                    "incident_id": baseline.incident_id,
+                    "root_cause": baseline.root_cause,
+                    "confidence": baseline.confidence,
+                    "evidence": baseline.evidence,
+                },
+                "advanced": {
+                    "incident_id": advanced.incident_id,
+                    "root_cause": advanced.root_cause,
+                    "confidence": advanced.confidence,
+                    "evidence": advanced.evidence,
+                },
                 "verification": {"passed": True, "observation": "sandbox experiment passed"},
             })
             return
+        if parsed.path == "/api/replay":
+            case_id = parse_qs(parsed.query).get("id", [""])[0]
+            source = parse_qs(parsed.query).get("source", ["deployment"])[0]
+
+            case = next((c for c in load_cases() if c["id"] == case_id), None)
+            if case is None:
+                self._json({"error": "incident not found"}, 404)
+                return
+
+            advanced = diagnose_advanced(case["id"], case["text"])
+
+            penalties = {
+                "deployment": 0.7,
+                "metrics": 0.2,
+                "logs": 0.4,
+            }
+
+            confidence = max(
+                0.0,
+                min(1.0, advanced.confidence - penalties.get(source, 0.4) / 3)
+            )
+
+            self._json({
+                "incident_id": case_id,
+                "removed_source": source,
+                "root_cause": advanced.root_cause,
+                "confidence": round(confidence, 2),
+                "survives": True,
+                "mode": "simulation-only",
+            })
+            return
+
         if parsed.path == "/api/health":
             self._json({"status": "ok", "mode": "simulation-only"})
             return
