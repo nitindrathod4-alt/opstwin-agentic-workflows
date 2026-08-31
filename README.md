@@ -1,90 +1,78 @@
-# OpsTwin — Agentic Incident Investigation
+# OpsTwin — Agentic Incident Investigation Platform
 
-> **Frontier Engineering Challenge 2026**
+OpsTwin is an evidence-driven incident investigation platform designed to help engineers analyze incidents, compare competing root-cause hypotheses, verify conclusions in a deterministic sandbox, and preserve an auditable investigation trail.
 
-OpsTwin is an evidence-driven incident investigation system designed to evaluate whether an agent can reason through ambiguous software incidents, compare competing root-cause hypotheses, verify conclusions safely, and produce an auditable investigation trail.
+> **Safety:** Simulation-only workflow. No production mutations are exposed.
 
-The project deliberately separates a simple deterministic baseline from an advanced evidence-aware investigation workflow so that improvement can be **measured rather than claimed**.
+## Demo
 
----
+🎥 **Video Demo:** https://youtu.be/nqDnM9DVgZo
 
-## Executive Summary
+## Screenshots
 
-Traditional incident automation often produces a plausible root cause from the first matching signal.
+### 1. Incident Command Center — Overview
+The main command center provides incident selection, live analysis, diagnosis confidence, safety posture, incident timeline, and competing hypotheses.
 
-OpsTwin takes a different approach:
+![OpsTwin Overview](assets/01-overview.png)
 
-**collect evidence → reconstruct the timeline → generate competing hypotheses → weigh supporting and contradicting evidence → verify safely → replay counterfactuals → produce an auditable conclusion**
+### 2. Incident Timeline — Live Case View
+Shows the investigation timeline with incident signals, evidence analysis, competing hypotheses, and sandbox verification.
 
-The system is simulation-first. It does not execute destructive production actions.
+![Incident Timeline](assets/02-timeline.png)
 
-### Current measured result
+### 3. Evidence Explorer & Counterfactual Replay
+Compare supporting and contradicting evidence, then remove evidence sources to test whether the diagnosis survives.
 
-| Evaluation | Baseline | Advanced |
-|---|---:|---:|
-| Fixed benchmark | 80% | **100%** |
-| Adversarial benchmark | — | **100% (5/5)** |
-| Absolute improvement | — | **+20 percentage points** |
+![Evidence Explorer and Counterfactual Replay](assets/03-evidence-replay.png)
 
-All benchmark results are produced from the fixed synthetic datasets included in the repository.
+### 4. Benchmark Performance
+Displays baseline vs advanced accuracy, improvement, adversarial performance, and results across the fixed incident dataset.
 
----
+![Benchmark Performance](assets/04-benchmark.png)
 
-## Why OpsTwin?
+### 5. Audit Trail & Reproducible Report
+Preserves evidence inspection, timestamps, competing hypotheses, counter-evidence, sandbox verification, human checkpoint, and generated incident report.
 
-An incident diagnosis is not valuable merely because it sounds convincing.
+![Audit Trail and Report](assets/05-audit-report.png)
 
-A reliable investigation system should be able to answer:
+## Core Workflow
 
-- What evidence supports the diagnosis?
-- What evidence contradicts it?
-- Were competing hypotheses considered?
-- Is the evidence ordered in time?
-- Can the conclusion survive removal of important evidence?
-- Was verification performed safely?
-- Can another engineer reproduce the result?
+1. **Inspect** — Read incident evidence and constraints.
+2. **Timeline** — Order events by timestamp and source.
+3. **Compete** — Compare supporting and contradicting signals.
+4. **Verify** — Use deterministic sandbox experiments.
+5. **Report** — Preserve evidence, uncertainty, and decisions.
 
-OpsTwin treats these questions as first-class engineering requirements.
+## Key Capabilities
 
----
+- Evidence-driven incident diagnosis
+- Competing root-cause hypotheses
+- Supporting vs counter-evidence analysis
+- Counterfactual evidence-removal replay
+- Deterministic sandbox verification
+- Baseline and advanced benchmark evaluation
+- Adversarial test coverage
+- Reproducible incident reports
+- Auditable reasoning trail
+- Human checkpoint before operational decisions
+- Simulation-only safety posture
 
-## System Architecture
+## Benchmark Snapshot
 
-```text
-                    ┌──────────────────────┐
-                    │   Incident / Case    │
-                    └──────────┬───────────┘
-                               │
-                               ▼
-                    ┌──────────────────────┐
-                    │ Evidence Collection  │
-                    │ source + time + data  │
-                    └──────────┬───────────┘
-                               │
-                               ▼
-                    ┌──────────────────────┐
-                    │ Timeline Reconstruction│
-                    └──────────┬───────────┘
-                               │
-                               ▼
-                 ┌─────────────────────────────┐
-                 │ Competing Hypothesis Engine │
-                 │                             │
-                 │ + Supporting evidence       │
-                 │ - Contradicting evidence    │
-                 │ + Evidence weighting        │
-                 └──────────────┬──────────────┘
-                                │
-                     ┌──────────┴──────────┐
-                     ▼                     ▼
-            ┌─────────────────┐   ┌──────────────────┐
-            │ Safe Verification│   │ Counterfactual  │
-            │ / Sandbox        │   │ Replay          │
-            └────────┬────────┘   └────────┬─────────┘
-                     │                     │
-                     └──────────┬──────────┘
-                                ▼
-                    ┌──────────────────────┐
-                    │ Auditable Report     │
-                    │ + Evidence Trail     │
-                    └──────────────────────┘
+| Metric | Result |
+|---|---:|
+| Baseline accuracy | 80% |
+| Advanced accuracy | 100% |
+| Improvement | +20 percentage points |
+| Adversarial performance | 100% |
+| Fixed incidents | 10 |
+
+## Safety & Auditability
+
+OpsTwin is presented as a **safe simulation environment**. The workflow records evidence, verification, uncertainty, and decisions while keeping production mutation disabled.
+
+## Project
+
+**OpsTwin — Agentic Incident Investigation Platform**
+
+Built around an agentic workflow for evidence-driven, reproducible incident investigation.
