@@ -10,30 +10,16 @@ OpsTwin is an evidence-driven incident investigation platform designed to help e
 
 ## Screenshots
 
-### 1. Incident Command Center — Overview
-The main command center provides incident selection, live analysis, diagnosis confidence, safety posture, incident timeline, and competing hypotheses.
+The screenshots below show the core OpsTwin workflow. The investigation-selector/dropdown view is intentionally excluded.
 
-![OpsTwin Overview](assets/01-overview.png)
+![OpsTwin — Overview, Timeline, Evidence Explorer, Benchmark and Audit](assets/opstwin-5-panels.jpg)
 
-### 2. Incident Timeline — Live Case View
-Shows the investigation timeline with incident signals, evidence analysis, competing hypotheses, and sandbox verification.
-
-![Incident Timeline](assets/02-timeline.png)
-
-### 3. Evidence Explorer & Counterfactual Replay
-Compare supporting and contradicting evidence, then remove evidence sources to test whether the diagnosis survives.
-
-![Evidence Explorer and Counterfactual Replay](assets/03-evidence-replay.png)
-
-### 4. Benchmark Performance
-Displays baseline vs advanced accuracy, improvement, adversarial performance, and results across the fixed incident dataset.
-
-![Benchmark Performance](assets/04-benchmark.png)
-
-### 5. Audit Trail & Reproducible Report
-Preserves evidence inspection, timestamps, competing hypotheses, counter-evidence, sandbox verification, human checkpoint, and generated incident report.
-
-![Audit Trail and Report](assets/05-audit-report.png)
+**Included views:**
+- Incident Command Center — Overview
+- Incident Timeline — Live Case View
+- Evidence Explorer & Counterfactual Replay
+- Benchmark Performance
+- Audit Trail & Reproducible Report
 
 ## Core Workflow
 
