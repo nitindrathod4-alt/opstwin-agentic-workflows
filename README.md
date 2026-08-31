@@ -8,24 +8,6 @@ OpsTwin is an agentic incident investigation platform that helps engineers inspe
 
 > **Safety:** Simulation-only workflow. No production mutations are exposed.
 
-## 📸 Product Screenshots
-
-The following views demonstrate the complete investigation workflow:
-
-<p align="center">
-  <img src="assets/opstwin-5-panels.jpg" alt="OpsTwin product screenshots — Overview, Incident Timeline, Evidence Explorer, Benchmark Performance, and Audit Trail" width="100%" />
-</p>
-
-### Included views
-
-| View | What it demonstrates |
-|---|---|
-| **Incident Command Center** | Live incident analysis, diagnosis and safety posture |
-| **Incident Timeline** | Timestamped investigation events and competing hypotheses |
-| **Evidence Explorer** | Supporting evidence, counter-evidence and replay controls |
-| **Benchmark Performance** | Baseline vs advanced accuracy and adversarial results |
-| **Audit Trail & Report** | Recorded reasoning, verification and reproducible incident report |
-
 ## 🔄 Core Investigation Workflow
 
 1. **Inspect** — Read incident evidence and constraints.
