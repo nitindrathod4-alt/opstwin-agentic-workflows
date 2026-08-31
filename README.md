@@ -4,10 +4,6 @@ OpsTwin is an evidence-driven incident investigation platform designed to help e
 
 > **Safety:** Simulation-only workflow. No production mutations are exposed.
 
-## Demo
-
-🎥 **Video Demo:** https://youtu.be/nqDnM9DVgZo
-
 ## Screenshots
 
 The screenshots below show the core OpsTwin workflow. The investigation-selector/dropdown view is intentionally excluded.
