@@ -4,24 +4,65 @@
 
 <p align="center">
 <img src="https://img.shields.io/badge/AI-Agentic%20Workflows-ff6b35?style=for-the-badge" />
-<img src="https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python" />
+<img src="https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white" />
 <img src="https://img.shields.io/badge/Hackathon-micro1%202026-00b894?style=for-the-badge" />
 <img src="https://img.shields.io/badge/Safety-Simulation%20Only-e17055?style=for-the-badge" />
 </p>
 
-> OpsTwin is an agentic incident investigation platform for simulated production incidents. It inspects evidence, reconstructs timelines, compares competing root-cause hypotheses, verifies conclusions in a deterministic sandbox, and preserves an auditable investigation trail.
+> **OpsTwin** is an agentic incident investigation platform for simulated production incidents. It analyzes evidence, ranks competing root-cause hypotheses, verifies conclusions in a sandbox, supports counterfactual replay, and preserves an auditable investigation trail.
 
 <p align="center"><b>🔎 Inspect → 🕒 Timeline → ⚔️ Compete → 🧪 Verify → 📋 Report</b></p>
 
 ---
 
-## 🖥️ Product UI Showcase
+## 🖥️ Product UI
 
 <p align="center">
-  <img src="docs/ui-showcase.svg" alt="OpsTwin UI Showcase" width="100%">
+  <img src="assets/opstwin-5-panels.jpg" alt="OpsTwin Incident Command Center UI" width="100%">
 </p>
 
-The showcase above is based on the UI screens in the supplied OpsTwin recording reference: Dashboard, Incident Timeline, Evidence Explorer, Counterfactual Replay, Benchmark, and Audit.
+The actual frontend in `frontend/index.html` is a dark, responsive **Incident Command Center**. It contains a persistent navigation rail and four main views: **Overview, Investigation, Benchmark, and Audit**.
+
+### 🔥 Live Incident Analyzer
+
+The Overview page includes a live analyzer for an incident, alert, error, or log summary. It displays:
+
+- Diagnosis
+- Heuristic confidence
+- Ranked competing hypotheses
+- Supporting / counter-evidence indicators
+- Simulation-only status
+
+### 📊 Overview Dashboard
+
+The dashboard includes:
+
+| UI Area | What it shows |
+|---|---|
+| Advanced accuracy | **100%** |
+| Baseline accuracy | **80%** |
+| Adversarial | **100% / 5 of 5 passed** |
+| Safety posture | **Sandbox / protected execution** |
+| Incident timeline | Incident signal → corroborating evidence → sandbox verification |
+| Competing hypotheses | Ranked root-cause candidates with scores |
+| Verification & controls | Sandbox, evidence recording, production mutation, human checkpoint |
+| Reproducible report | Generated investigation artifact |
+
+### 🔍 Investigation View
+
+The Investigation view contains:
+
+- **Evidence Explorer** — All / Supporting / Counter-evidence filters
+- **Counterfactual Replay** — remove deployment, log, or metrics evidence and rerun the replay
+- **Investigation workflow** — Inspect → Timeline → Compete → Verify → Report
+
+### 📈 Benchmark View
+
+The Benchmark view evaluates the workflow against **10 fixed incidents** and compares baseline and advanced diagnoses.
+
+### 🧾 Audit View
+
+The Audit view records the investigation trail, including evidence inspection, timeline, competing hypotheses, counter-evidence, sandbox verification, human checkpoint, and baseline/advanced diagnosis.
 
 ---
 
@@ -32,28 +73,12 @@ OpsTwin follows an **evidence-first** investigation model:
 - 🔎 Inspect incident evidence and constraints
 - 🕒 Reconstruct events into a timeline
 - ⚔️ Compare competing root-cause hypotheses
-- 🧪 Verify conclusions with deterministic sandbox experiments
-- 📋 Report evidence, uncertainty, and decisions
+- 🧪 Verify conclusions using sandbox experiments
+- 🔁 Test diagnosis with counterfactual replay
+- 📋 Generate a reproducible report
 - 🧾 Preserve an auditable investigation trail
 
-**Safety by design:** simulation-only; no production-changing actions are exposed.
-
----
-
-## ✨ Key Capabilities
-
-| Capability | Description |
-|---|---|
-| 🔍 Evidence-driven diagnosis | Analyze incident evidence before conclusions |
-| 🧠 Competing hypotheses | Compare multiple possible root causes |
-| ⚖️ Supporting vs counter-evidence | Explicitly weigh evidence on both sides |
-| 🔁 Counterfactual replay | Re-run investigation after removing evidence |
-| 🧪 Deterministic verification | Validate conclusions in a controlled sandbox |
-| 📊 Benchmark evaluation | Compare advanced workflow with baseline |
-| 🛡️ Adversarial testing | Evaluate difficult incident cases |
-| 🧾 Audit trail | Preserve evidence, reasoning and decisions |
-| 👤 Human checkpoint | Keep operational decisions behind review |
-| 🚫 Simulation-only safety | Production mutation remains disabled |
+**Safety by design:** the frontend explicitly labels the environment **SAFE / SIMULATION ONLY** and states that no production mutations are exposed.
 
 ---
 
@@ -62,32 +87,44 @@ OpsTwin follows an **evidence-first** investigation model:
 ```mermaid
 flowchart LR
     A[📥 Incident Evidence] --> B[🔎 Inspect]
-    B --> C[🕒 Timeline Builder]
-    C --> D[🧠 Hypothesis Generation]
-    D --> E[⚔️ Competing Evidence Analysis]
-    E --> F[🧪 Deterministic Verification]
-    F --> G[📋 Investigation Report]
-    G --> H[🧾 Auditable Trail]
-    E --> I[🔁 Counterfactual Replay]
+    B --> C[🕒 Timeline]
+    C --> D[🧠 Competing Hypotheses]
+    D --> E[🧪 Sandbox Verification]
+    E --> F[📋 Report]
+    F --> G[🧾 Audit Trail]
+    D --> H[🔁 Counterfactual Replay]
+    H --> D
+    I[📊 Benchmark] --> D
     I --> E
-    J[📊 Evaluation & Benchmarks] --> D
-    J --> F
-    J --> G
 ```
 
 ---
 
-## 📈 Benchmark Results
+## 📈 Benchmark Snapshot
 
 | Metric | Result |
 |---|---:|
 | 🧪 Baseline accuracy | **80%** |
 | 🚀 Advanced accuracy | **100%** |
 | 📈 Improvement | **+20 percentage points** |
-| 🛡️ Adversarial performance | **100%** |
+| 🛡️ Adversarial | **100% — 5/5 passed** |
 | 📦 Fixed incidents | **10** |
 
-The supplied recording reference also shows the benchmark page covering ten fixed incidents and baseline-vs-advanced cases. 
+---
+
+## 🧰 Tech & Engineering
+
+- 🐍 Python
+- 🌐 HTML5 / CSS3 / JavaScript
+- 🤖 Agentic investigation workflow
+- 🔎 Evidence analysis
+- 🧠 Root-cause hypothesis ranking
+- 🧪 Deterministic sandbox verification
+- 🔁 Counterfactual replay
+- 📊 Benchmark & adversarial evaluation
+- 🧾 Audit / trajectory artifacts
+- ✅ Automated tests
+- ⚙️ GitHub Actions CI
 
 ---
 
@@ -95,20 +132,18 @@ The supplied recording reference also shows the benchmark page covering ten fixe
 
 ```text
 opstwin-agentic-workflows/
-├── 🤖 agents/
-├── 📏 baseline/
-├── 📊 evaluation/
+├── 🤖 agents/                 # Investigation agents and orchestration
+├── 📏 baseline/              # Baseline workflow
+├── 📊 evaluation/            # Benchmark and adversarial evaluation
 ├── 🖥️ frontend/
-├── 📁 data/
-├── 🧪 tests/
-├── 🛠️ tools/
-├── 🏆 submission/
-│   ├── trajectories/
-│   ├── benchmark_result.json
-│   ├── adversarial_result.json
-│   └── counterfactual_result.txt
+│   └── index.html            # Actual Incident Command Center UI
+├── 📁 data/incidents/        # Synthetic incident cases
+├── 🛠️ tools/                # Evidence, timeline, replay and sandbox tools
+├── 🏆 submission/            # Hackathon results and trajectories
+├── 🖼️ assets/
+│   └── opstwin-5-panels.jpg  # UI showcase
+├── 🧪 tests/                 # Automated tests
 ├── 📦 requirements.txt
-├── ⚙️ pytest.ini
 └── 📖 README.md
 ```
 
@@ -123,30 +158,42 @@ python -m pip install -r requirements.txt
 pytest
 ```
 
-For the web demonstration, follow the application entry-point instructions in `frontend/`.
+### Web application
+
+The main frontend is:
+
+```text
+frontend/index.html
+```
+
+The UI calls backend endpoints for incidents, cases, and counterfactual replay.
 
 ---
 
 ## 🧪 Evaluation & Reproducibility
 
-OpsTwin includes:
+The repository includes:
 
-- Baseline vs advanced workflow evaluation
-- Adversarial incident evaluation
-- Counterfactual evidence-removal replay
-- Agent trajectory / reasoning-trace artifacts
+- Baseline vs advanced evaluation
+- Fixed incident benchmark
+- Adversarial cases
+- Counterfactual replay
+- Investigation trajectories
 - Automated tests
+- CI workflow
 
 ---
 
 ## 🔐 Safety & Auditability
 
-- 🚫 No production-changing actions
-- 🧪 Deterministic sandbox verification
+OpsTwin is intentionally designed as a **simulation environment**:
+
+- 🚫 No production mutations
+- 🧪 Sandbox verification
 - 🧾 Evidence and decisions recorded
-- ⚠️ Uncertainty preserved
-- 👤 Human checkpoint before operational decisions
-- 🔁 Reproducible investigation workflow
+- 🔁 Reproducible investigation flow
+- 👤 Human checkpoint required
+- ⚠️ Counter-evidence explicitly preserved
 
 ---
 
@@ -154,19 +201,18 @@ OpsTwin includes:
 
 Built for the **micro1 Frontier Engineering Challenge 2026**.
 
-The repository contains the investigation implementation, evaluation logic, benchmark results, adversarial results, and submission traces.
+The project demonstrates an evidence-driven, auditable approach to agentic incident investigation with benchmark, adversarial, and counterfactual evaluation.
 
 ---
 
-## 💡 What I Learned
+## 💡 Key Learning
 
-🤖 Agentic workflow design • 🔍 Evidence-based reasoning • 🧠 Root-cause analysis • 📊 Evaluation • 🧪 Deterministic verification • 🛡️ AI safety & auditability
+> Building reliable agentic systems is not only about generating a diagnosis — it is about **evidence, competing hypotheses, verification, reproducibility, safety, and auditability**.
 
 ---
 
 ## 👨‍💻 Author
 
-**Nitin Rathod**  
-GitHub: [@nitindrathod4-alt](https://github.com/nitindrathod4-alt)
+**Nitin Rathod**
 
 <p align="center"><strong>🚀 Build. Investigate. Verify. Learn.</strong></p>
