@@ -1,159 +1,195 @@
 <div align="center">
 
-# 🧠 OpsTwin
-### Agentic Incident Investigation Platform
+# 🧠⚡ OpsTwin
+### Next-Gen Agentic Incident Intelligence
 
-**Evidence-driven diagnosis • Hypothesis competition • Sandbox verification • Auditability**
+**AI-powered investigation for complex incidents — evidence first, reasoning visible, verification before conclusion.**
 
 <p>
-  <img src="https://img.shields.io/badge/AI-Agentic%20Workflows-7C3AED?style=for-the-badge&logo=sparkles&logoColor=white" />
-  <img src="https://img.shields.io/badge/Incident%20Investigation-06B6D4?style=for-the-badge&logo=opsgenie&logoColor=white" />
-  <img src="https://img.shields.io/badge/Python-3.x-2563EB?style=for-the-badge&logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/Simulation%20Only-EC4899?style=for-the-badge&logo=shield&logoColor=white" />
+  <img src="https://img.shields.io/badge/GEN--AI-7C3AED?style=for-the-badge&logo=sparkles&logoColor=white" />
+  <img src="https://img.shields.io/badge/AGENTIC%20AI-8B5CF6?style=for-the-badge&logo=probot&logoColor=white" />
+  <img src="https://img.shields.io/badge/INCIDENT%20INTELLIGENCE-06B6D4?style=for-the-badge&logo=opsgenie&logoColor=white" />
+  <img src="https://img.shields.io/badge/SAFETY%20SIMULATION-EC4899?style=for-the-badge&logo=shield&logoColor=white" />
 </p>
 
 <p>
-  <a href="#-quick-start">Quick Start</a> •
-  <a href="#-architecture">Architecture</a> •
-  <a href="#-product-flow">Product Flow</a> •
-  <a href="#-benchmark">Benchmark</a> •
-  <a href="#-tech-stack">Tech Stack</a>
+  <b>🔎 Observe</b> → <b>🧠 Reason</b> → <b>⚔️ Challenge</b> → <b>🧪 Verify</b> → <b>📋 Explain</b>
 </p>
 
 </div>
 
 ---
 
-## ✨ What is OpsTwin?
+## 🌌 The Idea
 
-**OpsTwin** is an agentic incident investigation platform built to reason about **simulated production incidents** using an evidence-first workflow.
+**OpsTwin** is a next-generation **agentic incident investigation platform** that turns raw incident evidence into an explainable, verifiable root-cause investigation.
 
-Instead of jumping directly to a root cause, OpsTwin follows:
+Instead of asking an AI agent to simply **“find the problem”**, OpsTwin creates a structured reasoning loop:
 
-> **Inspect → Timeline → Compete → Verify → Report**
+> **Evidence → Timeline → Hypotheses → Counter-Evidence → Verification → Report**
 
-The platform analyzes incident evidence, ranks competing root-cause hypotheses, challenges diagnoses with counter-evidence, verifies conclusions in a sandbox, replays counterfactual scenarios, and preserves an auditable investigation trail.
+The result is designed to be **explainable, reproducible, auditable and safety-first**.
 
-> 🛡️ **Safety boundary:** Simulation and evaluation only. No production mutations are exposed.
+> 🛡️ **Simulation boundary:** OpsTwin is intended for simulated incidents and evaluation. It does not expose production mutation capabilities.
 
 ---
 
-## 🤖 Core Capabilities
+## 🧠 AI Investigation Engine
 
-| Capability | What it does |
+| Intelligence Layer | Purpose |
 |---|---|
-| 🔎 **Evidence Explorer** | Inspects logs, signals, constraints and evidence |
-| 🕒 **Timeline Reconstruction** | Organizes incident events into a causal sequence |
-| 🧠 **Hypothesis Competition** | Compares multiple root-cause candidates |
-| ⚔️ **Counter-Evidence** | Looks for evidence that could disprove a hypothesis |
-| 🧪 **Sandbox Verification** | Tests conclusions in an isolated environment |
-| 🔁 **Counterfactual Replay** | Explores alternative incident conditions |
-| 📊 **Benchmarking** | Measures baseline, advanced and adversarial performance |
-| 🧾 **Audit Trail** | Preserves investigation steps for review and reproduction |
+| 🔎 **Evidence Intelligence** | Extract and inspect relevant incident signals |
+| 🕒 **Temporal Reasoning** | Reconstruct what happened and when |
+| 🧠 **Hypothesis Engine** | Generate and rank competing root causes |
+| ⚔️ **Adversarial Challenge** | Search for counter-evidence against the leading hypothesis |
+| 🧪 **Verification Engine** | Validate reasoning inside a deterministic sandbox |
+| 🔁 **Counterfactual Replay** | Explore alternative conditions and outcomes |
+| 📊 **Evaluation Engine** | Compare baseline, advanced and adversarial results |
+| 🧾 **Audit Engine** | Preserve the complete investigation trajectory |
 
 ---
 
-## 🧭 Product Flow
+## ⚡ Agentic Workflow
 
 ```text
-📥 Incident Input
-       ↓
-🔎 Inspect Evidence
-       ↓
-🕒 Build Timeline
-       ↓
-🧠 Compete Hypotheses
-       ↓
-🧪 Verify in Sandbox
-       ↓
-📋 Generate Report
-       ↓
-🧾 Audit Trail
-
-↺ Counterfactual Replay
-  feeds back into hypothesis evaluation.
+┌─────────────────────────────────────────────────────┐
+│              📥 INCIDENT SIGNALS                    │
+│       Logs • Events • Metrics • Constraints          │
+└─────────────────────────┬───────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────┐
+│ 🔎 OBSERVE                                           │
+│ Collect and inspect evidence                         │
+└─────────────────────────┬───────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────┐
+│ 🕒 UNDERSTAND                                        │
+│ Reconstruct the incident timeline                    │
+└─────────────────────────┬───────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────┐
+│ 🧠 REASON                                            │
+│ Generate + rank competing hypotheses                │
+└─────────────────────────┬───────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────┐
+│ ⚔️ CHALLENGE                                         │
+│ Search for counter-evidence                          │
+└─────────────────────────┬───────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────┐
+│ 🧪 VERIFY                                             │
+│ Test the leading explanation in sandbox              │
+└─────────────────────────┬───────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────┐
+│ 📋 EXPLAIN                                            │
+│ Produce reproducible diagnosis + audit trail         │
+└─────────────────────────────────────────────────────┘
 ```
+
+---
+
+## 🚀 Why OpsTwin is Different
+
+### Traditional troubleshooting
+**Signal → Guess → Fix**
+
+### OpsTwin approach
+**Evidence → Timeline → Compete → Challenge → Verify → Explain**
+
+This makes the investigation process more disciplined instead of relying on a single unverified AI answer.
 
 ---
 
 ## 🖥️ Product Experience
 
-OpsTwin provides a focused investigation experience covering:
+OpsTwin is organized around five investigation experiences:
 
-- 🖥️ **Incident Command Center** — incident status, metrics and investigation context
-- 🔍 **Evidence-First Investigation** — supporting evidence, counter-evidence and hypotheses
-- 📈 **Benchmarking** — reproducible evaluation across fixed incidents
-- ⚖️ **Baseline vs Advanced** — workflow performance comparison
-- 🧾 **Audit Trail** — explainable investigation history and artifacts
+| Experience | Focus |
+|---|---|
+| 🖥️ **Command Center** | Incident overview, status and investigation context |
+| 🔍 **Investigation Workspace** | Evidence, counter-evidence and hypotheses |
+| 📈 **Benchmark Lab** | Reproducible performance evaluation |
+| ⚖️ **Baseline vs Advanced** | Measure the impact of agentic reasoning |
+| 🧾 **Audit Trail** | Explainable investigation history |
 
-> 🎨 **AI-native UI:** Designed around a futuristic dark interface with purple, cyan and magenta visual accents.
+### 🎨 AI-Native Design
+
+The interface follows a futuristic **AI Operations** visual language:
+
+**Deep dark UI · Electric purple · Cyan intelligence signals · Magenta highlights · High-contrast data panels**
 
 ---
 
-## 📊 Benchmark
-
-OpsTwin is evaluated across **10 fixed incidents**.
+## 📊 Evaluation Snapshot
 
 | Metric | Result |
 |---|---:|
-| Baseline accuracy | **80%** |
-| Advanced accuracy | **100%** |
-| Improvement | **+20 percentage points** |
-| Adversarial evaluation | **100% — 5/5 passed** |
-| Fixed incidents | **10** |
+| 🎯 Baseline accuracy | **80%** |
+| 🧠 Advanced accuracy | **100%** |
+| 📈 Improvement | **+20 percentage points** |
+| 🛡️ Adversarial evaluation | **100% — 5/5 passed** |
+| 🧪 Fixed incidents | **10** |
 
-The advanced workflow introduces **competing hypotheses, counter-evidence, sandbox verification and reproducible audit artifacts**.
+> The benchmark measures whether adding structured agentic investigation improves diagnosis quality.
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ System Architecture
 
 ```mermaid
-flowchart LR
-    A[📥 Incident Evidence] --> B[🔎 Inspect]
-    B --> C[🕒 Timeline]
-    C --> D[🧠 Competing Hypotheses]
-    D --> E[🧪 Sandbox Verification]
-    E --> F[📋 Investigation Report]
-    F --> G[🧾 Audit Trail]
-    D --> H[🔁 Counterfactual Replay]
-    H --> D
-    I[📊 Benchmark] --> D
-    I --> E
+flowchart TB
+    A[📥 Incident Evidence] --> B[🔎 Evidence Intelligence]
+    B --> C[🕒 Temporal Reasoning]
+    C --> D[🧠 Hypothesis Engine]
+    D --> E[⚔️ Counter-Evidence]
+    E --> F[🧪 Sandbox Verification]
+    F --> G[📋 Investigation Report]
+    G --> H[🧾 Audit Trail]
+
+    D --> I[🔁 Counterfactual Replay]
+    I --> D
+
+    J[📊 Benchmark Engine] --> D
+    J --> F
 ```
 
 ---
 
 ## 🧩 Engineering Principles
 
-### 🔍 Evidence over assumptions
-Diagnoses are grounded in available incident evidence and explicit constraints.
+**🔍 Evidence over assumptions**  
+Ground reasoning in observable incident evidence.
 
-### 🧠 Competing explanations
-Multiple hypotheses remain in play instead of immediately locking onto the first plausible cause.
+**🧠 Multiple hypotheses**  
+Do not immediately commit to the first plausible explanation.
 
-### 🧪 Verify before concluding
-Sandbox experiments help validate whether a proposed explanation matches observed behavior.
+**⚔️ Challenge the diagnosis**  
+Actively search for evidence that could prove the leading hypothesis wrong.
 
-### 🧾 Make reasoning auditable
-Investigation steps and artifacts are preserved for later inspection and reproduction.
+**🧪 Verify before concluding**  
+Use sandbox experiments to test whether the explanation matches observed behavior.
 
-### 🛡️ Safety by design
-The experience clearly separates simulation from real production operations.
+**🧾 Preserve reasoning**  
+Keep the investigation trajectory inspectable and reproducible.
+
+**🛡️ Safety first**  
+Separate simulated investigation from real production operations.
 
 ---
 
-## 🧰 Tech Stack
+## 🧰 Technology
 
 <p>
-  <img src="https://img.shields.io/badge/Python-2563EB?style=flat-square&logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white" />
-  <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white" />
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black" />
-  <img src="https://img.shields.io/badge/GitHub%20Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white" />
+  <img src="https://img.shields.io/badge/Python-2563EB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
+  <img src="https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" />
 </p>
 
-**Engineering areas:** Agentic workflows • Evidence analysis • Root-cause ranking • Sandbox verification • Counterfactual replay • Benchmarking • Audit artifacts • Automated testing • CI
+**Core engineering:** Agentic workflows • Incident analysis • Root-cause reasoning • Evidence ranking • Sandbox verification • Counterfactual replay • Benchmarking • Audit artifacts • Automated testing • CI/CD
 
 ---
 
@@ -161,11 +197,12 @@ The experience clearly separates simulation from real production operations.
 
 ```text
 opstwin-agentic-workflows/
-├── 🤖 agents/                 # Agentic investigation components
+│
+├── 🤖 agents/                 # Agentic investigation logic
 ├── 📏 baseline/               # Baseline diagnosis workflow
-├── 📊 evaluation/             # Benchmarks and evaluation logic
-├── 🖥️ frontend/               # Web interface
-├── 📁 data/incidents/         # Fixed incident scenarios
+├── 📊 evaluation/             # Benchmark + adversarial evaluation
+├── 🖥️ frontend/               # AI-native web interface
+├── 📁 data/incidents/         # Simulated incident scenarios
 ├── 🛠️ tools/                  # Supporting utilities
 ├── 🏆 submission/              # Challenge artifacts
 ├── 🖼️ assets/                 # Project visuals
@@ -178,23 +215,29 @@ opstwin-agentic-workflows/
 
 ## 🚀 Quick Start
 
-### 1. Clone
+### 01 · Clone
+
 ```bash
 git clone https://github.com/nitindrathod4-alt/opstwin-agentic-workflows.git
 cd opstwin-agentic-workflows
 ```
 
-### 2. Install dependencies
+### 02 · Install
+
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-### 3. Run tests
+### 03 · Test
+
 ```bash
 pytest
 ```
 
-### 4. Open the web application
+### 04 · Launch
+
+Open:
+
 ```text
 frontend/index.html
 ```
@@ -203,18 +246,20 @@ frontend/index.html
 
 ## 🏆 micro1 Frontier Engineering Challenge 2026
 
-Built for the **micro1 Frontier Engineering Challenge 2026**, focusing on reliable and auditable agentic engineering.
+Built for the **micro1 Frontier Engineering Challenge 2026** around a simple idea:
 
-> **Reliable incident intelligence is not just about generating a diagnosis — it is about evidence, competing hypotheses, verification, reproducibility, safety, and auditability.**
+> **AI incident investigation should not stop at prediction. It should reason, challenge, verify and explain.**
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 Builder
 
 <div align="center">
 
 ### Nitin Rathod
-**DevOps / Cloud Engineer • AWS • Linux • Automation**
+
+**DevOps / Cloud Engineer**  
+AWS • Linux • Automation • AI Engineering
 
 <a href="https://github.com/nitindrathod4-alt">
   <img src="https://img.shields.io/badge/GitHub-nitindrathod4--alt-18181B?style=for-the-badge&logo=github&logoColor=white" />
@@ -222,6 +267,6 @@ Built for the **micro1 Frontier Engineering Challenge 2026**, focusing on reliab
 
 <br><br>
 
-**🚀 Build • Investigate • Verify • Learn**
+**⚡ Build intelligent systems. Investigate deeply. Verify everything.**
 
 </div>
