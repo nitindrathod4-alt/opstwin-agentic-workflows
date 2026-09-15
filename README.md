@@ -28,13 +28,13 @@
 
 **OpsTwin** is an agentic incident investigation platform built to reason about **simulated production incidents** using an evidence-first workflow.
 
-Instead of jumping directly to a root cause, OpsTwin follows a structured investigation loop:
+Instead of jumping directly to a root cause, OpsTwin follows:
 
 > **Inspect → Timeline → Compete → Verify → Report**
 
-The platform can analyze incident evidence, rank competing root-cause hypotheses, challenge its own diagnosis with counter-evidence, verify conclusions in a sandbox, replay counterfactual scenarios, and preserve the full investigation trail.
+The platform analyzes incident evidence, ranks competing root-cause hypotheses, challenges diagnoses with counter-evidence, verifies conclusions in a sandbox, replays counterfactual scenarios, and preserves an auditable investigation trail.
 
-> 🛡️ **Safety boundary:** OpsTwin is designed for simulation and evaluation. No production mutations are exposed.
+> 🛡️ **Safety boundary:** Simulation and evaluation only. No production mutations are exposed.
 
 ---
 
@@ -42,12 +42,12 @@ The platform can analyze incident evidence, rank competing root-cause hypotheses
 
 | Capability | What it does |
 |---|---|
-| 🔎 **Evidence Explorer** | Inspects logs, signals, constraints and investigation evidence |
+| 🔎 **Evidence Explorer** | Inspects logs, signals, constraints and evidence |
 | 🕒 **Timeline Reconstruction** | Organizes incident events into a causal sequence |
-| 🧠 **Hypothesis Competition** | Compares multiple root-cause candidates instead of assuming one answer |
-| ⚔️ **Counter-Evidence** | Actively looks for evidence that could disprove a hypothesis |
-| 🧪 **Sandbox Verification** | Tests conclusions in a deterministic, isolated environment |
-| 🔁 **Counterfactual Replay** | Explores what could change under alternative conditions |
+| 🧠 **Hypothesis Competition** | Compares multiple root-cause candidates |
+| ⚔️ **Counter-Evidence** | Looks for evidence that could disprove a hypothesis |
+| 🧪 **Sandbox Verification** | Tests conclusions in an isolated environment |
+| 🔁 **Counterfactual Replay** | Explores alternative incident conditions |
 | 📊 **Benchmarking** | Measures baseline, advanced and adversarial performance |
 | 🧾 **Audit Trail** | Preserves investigation steps for review and reproduction |
 
@@ -56,88 +56,43 @@ The platform can analyze incident evidence, rank competing root-cause hypotheses
 ## 🧭 Product Flow
 
 ```text
-                    ┌──────────────────────┐
-                    │   📥 Incident Input   │
-                    └──────────┬───────────┘
-                               ↓
-                    ┌──────────────────────┐
-                    │   🔎 Inspect Evidence │
-                    └──────────┬───────────┘
-                               ↓
-                    ┌──────────────────────┐
-                    │   🕒 Build Timeline   │
-                    └──────────┬───────────┘
-                               ↓
-                    ┌──────────────────────┐
-                    │ 🧠 Compete Hypotheses │
-                    └──────────┬───────────┘
-                               ↓
-                    ┌──────────────────────┐
-                    │   🧪 Verify in        │
-                    │      Sandbox          │
-                    └──────────┬───────────┘
-                               ↓
-                    ┌──────────────────────┐
-                    │   📋 Generate Report  │
-                    └──────────┬───────────┘
-                               ↓
-                    ┌──────────────────────┐
-                    │    🧾 Audit Trail     │
-                    └──────────────────────┘
+📥 Incident Input
+       ↓
+🔎 Inspect Evidence
+       ↓
+🕒 Build Timeline
+       ↓
+🧠 Compete Hypotheses
+       ↓
+🧪 Verify in Sandbox
+       ↓
+📋 Generate Report
+       ↓
+🧾 Audit Trail
 
-              ↺ Counterfactual Replay feeds back
-                into hypothesis evaluation.
+↺ Counterfactual Replay
+  feeds back into hypothesis evaluation.
 ```
 
 ---
 
-## 🖥️ Product Screens
+## 🖥️ Product Experience
 
-### 01 · Overview — Incident Command Center
+OpsTwin provides a focused investigation experience covering:
 
-<p align="center">
-  <img src="assets/opstwin-5-panels.jpg" alt="OpsTwin Overview Dashboard" width="100%">
-</p>
+- 🖥️ **Incident Command Center** — incident status, metrics and investigation context
+- 🔍 **Evidence-First Investigation** — supporting evidence, counter-evidence and hypotheses
+- 📈 **Benchmarking** — reproducible evaluation across fixed incidents
+- ⚖️ **Baseline vs Advanced** — workflow performance comparison
+- 🧾 **Audit Trail** — explainable investigation history and artifacts
 
-The overview brings the complete investigation into one command-center experience, including incident analysis, accuracy metrics, safety posture, timeline, and competing hypotheses.
-
-### 02 · Investigation — Evidence-First Diagnosis
-
-<p align="center">
-  <img src="assets/opstwin-5-panels.jpg" alt="OpsTwin Investigation View" width="100%">
-</p>
-
-The investigation workspace focuses on supporting evidence, counter-evidence, hypothesis ranking, verification, and the final investigation report.
-
-### 03 · Benchmark — Reproducible Evaluation
-
-<p align="center">
-  <img src="assets/opstwin-5-panels.jpg" alt="OpsTwin Benchmark View" width="100%">
-</p>
-
-The benchmark workspace compares OpsTwin against a fixed incident set and surfaces measurable evaluation results.
-
-### 04 · Baseline vs Advanced
-
-<p align="center">
-  <img src="assets/opstwin-5-panels.jpg" alt="OpsTwin Baseline versus Advanced" width="100%">
-</p>
-
-This view highlights the impact of the advanced agentic workflow across diagnosis quality, evidence handling, verification, and adversarial evaluation.
-
-### 05 · Audit Trail — Explainable Investigation History
-
-<p align="center">
-  <img src="assets/opstwin-5-panels.jpg" alt="OpsTwin Audit Trail" width="100%">
-</p>
-
-The audit layer captures evidence inspection, timeline reconstruction, hypothesis competition, verification, human checkpoints, and diagnosis comparisons.
+> 🎨 **AI-native UI:** Designed around a futuristic dark interface with purple, cyan and magenta visual accents.
 
 ---
 
 ## 📊 Benchmark
 
-OpsTwin is evaluated across **10 fixed incidents** with baseline, advanced and adversarial measurements.
+OpsTwin is evaluated across **10 fixed incidents**.
 
 | Metric | Result |
 |---|---:|
@@ -147,9 +102,7 @@ OpsTwin is evaluated across **10 fixed incidents** with baseline, advanced and a
 | Adversarial evaluation | **100% — 5/5 passed** |
 | Fixed incidents | **10** |
 
-### Why the advanced workflow matters
-
-The goal is not simply to produce an answer. The advanced workflow makes the reasoning process more disciplined by introducing **competing hypotheses, counter-evidence, sandbox verification and reproducible audit artifacts**.
+The advanced workflow introduces **competing hypotheses, counter-evidence, sandbox verification and reproducible audit artifacts**.
 
 ---
 
@@ -174,19 +127,19 @@ flowchart LR
 ## 🧩 Engineering Principles
 
 ### 🔍 Evidence over assumptions
-Every diagnosis is grounded in available incident evidence and explicit constraints.
+Diagnoses are grounded in available incident evidence and explicit constraints.
 
 ### 🧠 Competing explanations
-The workflow keeps multiple hypotheses in play instead of immediately locking onto the first plausible root cause.
+Multiple hypotheses remain in play instead of immediately locking onto the first plausible cause.
 
 ### 🧪 Verify before concluding
-Sandbox experiments help validate whether the proposed explanation is consistent with the observed behavior.
+Sandbox experiments help validate whether a proposed explanation matches observed behavior.
 
-### 🧾 Make the reasoning auditable
-Investigation steps and artifacts are preserved so the path from evidence to conclusion can be inspected later.
+### 🧾 Make reasoning auditable
+Investigation steps and artifacts are preserved for later inspection and reproduction.
 
 ### 🛡️ Safety by design
-The experience clearly separates simulation from real production operations and avoids exposing production mutation capabilities.
+The experience clearly separates simulation from real production operations.
 
 ---
 
@@ -200,17 +153,7 @@ The experience clearly separates simulation from real production operations and 
   <img src="https://img.shields.io/badge/GitHub%20Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white" />
 </p>
 
-**Engineering areas:**
-
-- Agentic investigation workflows
-- Evidence analysis
-- Root-cause hypothesis ranking
-- Deterministic sandbox verification
-- Counterfactual replay
-- Benchmark & adversarial evaluation
-- Audit / trajectory artifacts
-- Automated testing
-- CI with GitHub Actions
+**Engineering areas:** Agentic workflows • Evidence analysis • Root-cause ranking • Sandbox verification • Counterfactual replay • Benchmarking • Audit artifacts • Automated testing • CI
 
 ---
 
@@ -224,10 +167,10 @@ opstwin-agentic-workflows/
 ├── 🖥️ frontend/               # Web interface
 ├── 📁 data/incidents/         # Fixed incident scenarios
 ├── 🛠️ tools/                  # Supporting utilities
-├── 🏆 submission/              # Challenge submission artifacts
-├── 🖼️ assets/                 # Product screenshots and visuals
+├── 🏆 submission/              # Challenge artifacts
+├── 🖼️ assets/                 # Project visuals
 ├── 🧪 tests/                  # Automated tests
-├── 📦 requirements.txt        # Python dependencies
+├── 📦 requirements.txt
 └── 📖 README.md
 ```
 
@@ -236,35 +179,31 @@ opstwin-agentic-workflows/
 ## 🚀 Quick Start
 
 ### 1. Clone
-
 ```bash
 git clone https://github.com/nitindrathod4-alt/opstwin-agentic-workflows.git
 cd opstwin-agentic-workflows
 ```
 
 ### 2. Install dependencies
-
 ```bash
 python -m pip install -r requirements.txt
 ```
 
 ### 3. Run tests
-
 ```bash
 pytest
 ```
 
 ### 4. Open the web application
-
 ```text
 frontend/index.html
 ```
 
 ---
 
-## 🏆 Built for micro1 Frontier Engineering Challenge 2026
+## 🏆 micro1 Frontier Engineering Challenge 2026
 
-OpsTwin was built for the **micro1 Frontier Engineering Challenge 2026** with a focus on reliable agentic engineering.
+Built for the **micro1 Frontier Engineering Challenge 2026**, focusing on reliable and auditable agentic engineering.
 
 > **Reliable incident intelligence is not just about generating a diagnosis — it is about evidence, competing hypotheses, verification, reproducibility, safety, and auditability.**
 
